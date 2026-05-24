@@ -10,6 +10,10 @@ extends CharacterBody3D
 @export var dash_strength: float = 16.0
 @export var dash_cooldown: float = 1.0
 @export var impulse_decay: float = 50.0
+# Tuning exports for the animation interface (see animation state machine spec)
+@export var pivot_reversal_threshold: float = -0.5  # dot product cutoff (~120° reversal)
+@export var pivot_min_speed: float = 2.0            # below this speed, reversal too soft to register
+@export var idle_threshold: float = 0.1             # below this speed, future Drift→Idle transition fires
 
 # Internal velocity channels
 var input_velocity: Vector3 = Vector3.ZERO
@@ -115,6 +119,11 @@ func _resolve_dash_dir() -> Vector3:
 # Note: this is ADDITIVE (unlike dash, which OVERWRITES). See spec asymmetry note.
 func apply_impulse(impulse: Vector3) -> void:
 	impulse_velocity += Vector3(impulse.x, 0.0, impulse.z)
+
+
+# Public accessor for animation binding (player_anim.gd in future session).
+func is_steering() -> bool:
+	return _steering
 
 
 static func _step_angle(from: float, to: float, max_delta: float) -> float:
