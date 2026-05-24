@@ -4,6 +4,8 @@ extends CharacterBody3D
 # Signals for the animation binding (player_anim.gd, future session).
 @warning_ignore("unused_signal")
 signal dash_fired
+@warning_ignore("unused_signal")
+signal pivot_started
 
 
 # Tunable exports — see spec for rationale
@@ -50,6 +52,14 @@ func _physics_process(delta: float) -> void:
 			var dir := to_cursor / distance
 			var magnitude := clampf(distance / walk_threshold, 0.0, 1.0)
 			target_v = dir * max_speed * magnitude
+
+	# 1.5 Detect pivot: sharp reversal of steering target vs current motion.
+	#     Uses pre-mutation input_velocity and freshly computed target_v.
+	if _steering and target_v.length_squared() > 0.0 and input_velocity.length() > pivot_min_speed:
+		var prev_dir := input_velocity.normalized()
+		var new_dir := target_v.normalized()
+		if prev_dir.dot(new_dir) < pivot_reversal_threshold:
+			pivot_started.emit()
 
 	# 2. Integrate input_velocity (accel toward target, friction toward zero)
 	if target_v != Vector3.ZERO:
