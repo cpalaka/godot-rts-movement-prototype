@@ -1,6 +1,11 @@
 extends CharacterBody3D
 
 
+# Signals for the animation binding (player_anim.gd, future session).
+@warning_ignore("unused_signal")
+signal dash_fired
+
+
 # Tunable exports — see spec for rationale
 @export var max_speed: float = 7.0
 @export var accel: float = 24.0
@@ -96,6 +101,7 @@ func _try_dash() -> void:
 		return
 	impulse_velocity = dir * dash_strength
 	_dash_ready_at = now + dash_cooldown
+	dash_fired.emit()
 
 
 func _resolve_dash_dir() -> Vector3:
