@@ -14,7 +14,8 @@
 
 ## Project-specific notes (READ FIRST)
 
-- **Not a git repository.** Skip `git add`/`git commit` steps. Saving files IS the commit. If a repo is initialized later, commits can be reconstructed logically.
+- **Invoke `andrej-karpathy-skills:karpathy-guidelines` before writing any code in this plan.** It enforces surgical, minimum-code-that-solves-the-problem discipline, explicit assumption-surfacing, and verifiable per-step success criteria. Applies most clearly to Task 3 (pivot detection block — real logic, multiple branches, a tunable threshold). Task 1's declarations are borderline; invoking is still cheap. Mandated by the user's global `~/.claude/CLAUDE.md` for non-trivial code work. If executing as a dispatched subagent: your parent dispatched you with this reminder; honor it before touching the file.
+- **Project IS a git repository** as of 2026-05-24 (initial commit `6250c90`). Each task should end with a `git add <files>` + `git commit -m "<conventional message>"` step. (If this plan's prose elsewhere says "not a git repo, skip git steps" — that's a stale relic from when the plan was drafted; ignore.)
 - **No test framework installed.** Verification is observational — F5, play, observe behavior. Matches the prior movement-depth plan's pattern.
 - **Reading game console output.** Use `mcp__godot-mcp__editor action=get_debug_output` (the "deprecated" one — its deprecation note is premature). `get_console_output` returns nothing for editor-launched scenes.
 - **No `clamp/min/max/abs/sign` calls in this plan.** All new code uses typed variants (`clampf`, `absf`, `wrapf`) per the project's GDScript-Variant-inference gotcha. No code in this plan triggers that issue, but be aware if extending.
