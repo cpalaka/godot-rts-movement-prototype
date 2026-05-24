@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dl60m34nupv84"]
+
+[ext_resource type="Script" uid="uid://bt8osxdsamtk8" path="res://scripts/player.gd" id="1_tuyoq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
+albedo_color = Color(0.7, 0.7, 0.75, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_facing"]
+top_radius = 0.0
+bottom_radius = 0.12
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_facing"]
+albedo_color = Color(1, 0.45, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_collision"]
+radius = 0.4
+height = 1.8
+
+[node name="Player" type="CharacterBody3D" unique_id=2039112720]
+script = ExtResource("1_tuyoq")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1178424502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_body")
+surface_material_override/0 = SubResource("StandardMaterial3D_body")
+
+[node name="Facing" type="MeshInstance3D" parent="." unique_id=757107793]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.5, 0.35)
+mesh = SubResource("CylinderMesh_facing")
+surface_material_override/0 = SubResource("StandardMaterial3D_facing")
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=544548400]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_collision")

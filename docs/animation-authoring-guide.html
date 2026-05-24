@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Player Animation — Blender Authoring Guide</title>
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --fg: #1c1c1c;
+    --muted: #666;
+    --rule: #d8d4cb;
+    --card-bg: #ffffff;
+    --card-rule: #e6e2d8;
+    --accent: #1d4fa6;
+    --code-bg: #f0ede5;
+    --warn-bg: #fff5e0;
+    --warn-rule: #d9a93b;
+    --warn-fg: #5a4310;
+    --stub-bg: #f3f3f3;
+    --stub-rule: #c8c8c8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16171b;
+      --fg: #e7e5df;
+      --muted: #989489;
+      --rule: #2c2e34;
+      --card-bg: #1c1e23;
+      --card-rule: #2f3239;
+      --accent: #82b1ff;
+      --code-bg: #23262d;
+      --warn-bg: #3a2d10;
+      --warn-rule: #a78032;
+      --warn-fg: #f0d49a;
+      --stub-bg: #232427;
+      --stub-rule: #353740;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Pro Text", Helvetica, Arial, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    max-width: 1180px;
+    margin: 0 auto;
+    gap: 36px;
+    padding: 28px 36px;
+  }
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; gap: 16px; padding: 18px; }
+    nav.toc { position: static !important; }
+  }
+  nav.toc {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    font-size: 13px;
+    line-height: 1.7;
+    border-right: 1px solid var(--rule);
+    padding-right: 16px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+  nav.toc h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  nav.toc ul { list-style: none; padding: 0; margin: 0 0 14px; }
+  nav.toc li { margin: 2px 0; }
+  nav.toc a {
+    color: var(--fg);
+    text-decoration: none;
+    display: block;
+    padding: 1px 0;
+  }
+  nav.toc a:hover { color: var(--accent); }
+  nav.toc .sub { padding-left: 12px; color: var(--muted); }
+  main { min-width: 0; }
+  h1 {
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  h2 {
+    font-size: 21px;
+    margin: 38px 0 12px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: 16px;
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3 {
+    font-size: 16px;
+    margin: 22px 0 8px;
+    scroll-margin-top: 16px;
+  }
+  h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin: 14px 0 4px;
+  }
+  p { margin: 8px 0 12px; }
+  ul, ol { padding-left: 22px; margin: 8px 0 14px; }
+  li { margin: 3px 0; }
+  code {
+    font-family: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 13.5px;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0 16px;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .clip-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-rule);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .clip-card.stub {
+    background: var(--stub-bg);
+    border-color: var(--stub-rule);
+  }
+  .clip-card h3 {
+    margin-top: 0;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 15px;
+  }
+  .clip-card .badge {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--code-bg);
+    color: var(--muted);
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: 1px;
+  }
+  .clip-card .badge.stub { background: var(--stub-rule); color: var(--fg); }
+  .clip-card .badge.additive { background: var(--accent); color: white; }
+  .clip-meta {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 4px 14px;
+    font-size: 13.5px;
+    margin: 8px 0 12px;
+  }
+  .clip-meta dt { color: var(--muted); }
+  .clip-meta dd { margin: 0; }
+  .callout {
+    background: var(--warn-bg);
+    border-left: 3px solid var(--warn-rule);
+    color: var(--warn-fg);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .callout strong { color: var(--warn-fg); }
+  hr { border: none; border-top: 1px solid var(--rule); margin: 24px 0; }
+  a { color: var(--accent); }
+  .anchor-link {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 6px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  h2:hover .anchor-link, h3:hover .anchor-link { opacity: 1; }
+  @media print {
+    nav.toc { display: none; }
+    .layout { grid-template-columns: 1fr; padding: 0; }
+    body { font-size: 11pt; }
+    .clip-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc">
+  <h3>Sections</h3>
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#rig">Rig assumptions</a></li>
+    <li><a href="#export">Export checklist</a></li>
+    <li><a href="#discipline">Authoring discipline</a></li>
+    <li><a href="#clips">Per-clip sheets</a></li>
+    <li class="sub"><a href="#idle">idle</a></li>
+    <li class="sub"><a href="#walk_fwd">walk_fwd</a></li>
+    <li class="sub"><a href="#walk_lean_L">walk_lean_L</a></li>
+    <li class="sub"><a href="#walk_lean_R">walk_lean_R</a></li>
+    <li class="sub"><a href="#run_fwd">run_fwd</a></li>
+    <li class="sub"><a href="#run_lean_L">run_lean_L</a></li>
+    <li class="sub"><a href="#run_lean_R">run_lean_R</a></li>
+    <li class="sub"><a href="#drift_walk">drift_walk</a></li>
+    <li class="sub"><a href="#drift_run">drift_run</a></li>
+    <li class="sub"><a href="#pivot_skid">pivot_skid</a></li>
+    <li class="sub"><a href="#dash_burst">dash_burst</a></li>
+    <li class="sub"><a href="#hit_flinch">hit_flinch</a></li>
+    <li><a href="#order">Authoring order</a></li>
+    <li><a href="#refs">References</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<h1>Player Animation — Blender Authoring Guide</h1>
+<div class="subtitle">
+  Personal reference for hand-authoring the 13 clips that drive the player AnimationTree.<br>
+  Companion to <code>docs/superpowers/specs/2026-05-24-animation-state-machine-design.md</code> (the formal spec).
+</div>
+
+<h2 id="intro">Intro <a class="anchor-link" href="#intro">#</a></h2>
+
+<p>The state-machine spec defines <em>what</em> clips are needed and <em>how</em> they wire into the AnimationTree. This guide defines <em>how</em> to author each clip in Blender so it works correctly at runtime — length, loop discipline, pose blocking, sync alignment, additive considerations.</p>
+
+<p>Read alongside <code>docs/asset-pipeline.md</code> (export discipline) and <code>docs/blender-mcp-guide.md</code> (if using MCP-assisted authoring). This guide assumes Blender 4.x+ familiarity — it doesn't cover Blender basics, only project-specific requirements.</p>
+
+<p><strong>Total: 13 clips.</strong> All authored as Blender Actions on a single rigged character, exported in one <code>.glb</code> file.</p>
+
+<h2 id="rig">Rig assumptions <a class="anchor-link" href="#rig">#</a></h2>
+
+<p>The character is <strong>bipedal humanoid</strong>. Rig requirements:</p>
+
+<ul>
+  <li><strong>Standard bone hierarchy:</strong> root → hips → spine → chest → neck → head, plus arms (shoulder/upper-arm/forearm/hand) and legs (thigh/shin/foot/toe). Rigify or hand-built; either works.</li>
+  <li><strong>Bone naming:</strong> glTF-compatible. Avoid Blender's <code>.L</code>/<code>.R</code> if it causes issues downstream; <code>_l</code>/<code>_r</code> suffixes are safer cross-tool.</li>
+  <li><strong>Bind pose:</strong> T-pose or A-pose, facing <strong>+Y in Blender</strong> (which becomes <strong>+Z in Godot</strong> after the glTF axis swap). This matches the project's +Z-forward convention; see <code>scripts/player.gd</code>'s <code>_resolve_dash_dir</code> comment for why.</li>
+  <li><strong>Root bone at origin</strong> in bind pose. Hips above root, never below it.</li>
+  <li><strong>Scale:</strong> apply all scale transforms before rigging (Object → Apply → All Transforms). Character height ≈ 1.7m in Blender units = 1.7m in Godot.</li>
+</ul>
+
+<div class="callout">
+  <strong>No root motion.</strong> All character movement is driven by the physics controller. Animations are <strong>in-place gait cycles</strong> — never key the root bone position to translate forward. Keying root rotation/Y-translation for breathing or bounce is fine; horizontal translation is not.
+</div>
+
+<h2 id="export">Export checklist <a class="anchor-link" href="#export">#</a></h2>
+
+<p>Per <code>docs/asset-pipeline.md</code>. Key points:</p>
+
+<ul>
+  <li><strong>File:</strong> <code>assets/models/player.glb</code> (binary glTF 2.0).</li>
+  <li><strong>Animations:</strong> all 13 clips exported as named Actions. Use Blender's NLA editor or "Push Down" each Action into its own strip — confirm each Action is pushed before export.</li>
+  <li><strong>Clip names MUST match the spec exactly.</strong> These names become the AnimationPlayer animation names in Godot, which the AnimationTree's BlendSpace and StateMachine nodes reference by string. A typo silently breaks the binding.</li>
+  <li><strong>Frame rate:</strong> Blender scene at 30 fps. Confirm in Render → Frame Rate before keying.</li>
+  <li><strong>glTF export settings:</strong> Include Selected Objects = off (export the whole rig); Animation → Always Sample Animations = on; Animation → Group by NLA Track = on (preserves your action names).</li>
+</ul>
+
+<h2 id="discipline">Authoring discipline <a class="anchor-link" href="#discipline">#</a></h2>
+
+<h3>Frame rate</h3>
+<p><strong>30 fps</strong> across all clips. Don't mix rates between actions.</p>
+
+<h3>Looping clips</h3>
+<p>For any clip marked "Loop: yes": <strong>first frame == last frame</strong>. The easiest path is to copy frame 0's keyframes to frame N (where N = your intended cycle length + 1), then in the AnimationPlayer-side import, set the clip's end to frame N so the last frame is consumed only for loop wraparound.</p>
+<p>For BlendSpace anchors, looping discipline is critical — feet skate on the blend if walk and run cycles desync.</p>
+
+<h3>Sync groups</h3>
+<p>The AnimationTree skill notes: <em>never use Sync groups for animations with wildly different lengths</em>. Two BlendSpaces in this design use sync alignment:</p>
+<ul>
+  <li><strong>Locomotion BlendSpace2D</strong> (Move state): all 7 anchors (idle, walk_fwd, walk_lean_L/R, run_fwd, run_lean_L/R) blend together. Author so:
+    <ul>
+      <li><code>idle</code> can be any length — it's the center anchor, doesn't conflict with gait phase.</li>
+      <li><code>walk_fwd</code> / <code>walk_lean_L</code> / <code>walk_lean_R</code> all have <em>identical cycle length</em> (e.g., 30 frames) and aligned foot strikes (left heel down at frame 0, right heel down at frame 15).</li>
+      <li><code>run_fwd</code> / <code>run_lean_L</code> / <code>run_lean_R</code> all have <em>identical cycle length</em> (e.g., 18 frames) and aligned foot strikes (left at 0, right at 9).</li>
+      <li>Walk and run cycles can differ in length — the AnimationTree sync group time-scales them to a common phase. Just keep walk-variants matched and run-variants matched within their tier.</li>
+    </ul>
+  </li>
+  <li><strong>Drift BlendSpace1D</strong>: drift_walk and drift_run should be loosely sync-aligned (foot pattern roughly in phase), but the drift state is short-duration so exact alignment matters less.</li>
+</ul>
+
+<h3>Lean offsets</h3>
+<p>The 4 lean variants (walk_lean_L/R, run_lean_L/R) are <strong>derivatives</strong> of their <code>_fwd</code> counterparts, not from-scratch animations. Two production paths:</p>
+<ol>
+  <li><strong>Copy + tweak:</strong> duplicate the Action, add an additive bone-rotation layer on torso/spine/head/hips to introduce the lean. Keep foot strikes identical.</li>
+  <li><strong>Additive in Blender:</strong> author a "lean offset" Action separately (just torso rotation, no leg motion), then use NLA strip blend mode = Add over walk_fwd at export. Result is two Actions per lean variant — more work but cleaner.</li>
+</ol>
+<p>Path 1 is simpler and ships faster. Path 2 is more maintainable if you want to retune the lean later.</p>
+
+<h3>The additive clip (dash_burst)</h3>
+<p>One clip in this set is <strong>additive at runtime</strong> via the AnimationTree's OneShot Add node: <code>dash_burst</code>. Authoring rules differ:</p>
+<ul>
+  <li>The clip's frame 0 should be the rig's <strong>bind pose</strong> (or very close to it). The OneShot Add node interprets the clip as deltas relative to the locomotion underneath.</li>
+  <li>Don't animate legs in <code>dash_burst</code> — the locomotion legs are still cycling underneath. Restrict the action to torso, arms, head, hair/cape.</li>
+  <li>Preview the additive blend in Blender by stacking the dash_burst NLA strip on top of walk_fwd or run_fwd with blend mode = Add. If it looks weird in Blender, it'll look weird in Godot.</li>
+</ul>
+
+<h2 id="clips">Per-clip authoring sheets <a class="anchor-link" href="#clips">#</a></h2>
+
+<div class="clip-card" id="idle">
+  <h3>idle</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>~75 frames (2.5s @ 30fps), flexible</dd>
+    <dt>Loop</dt><dd>Yes — first frame == last frame</dd>
+    <dt>Root motion</dt><dd>None (in-place)</dd>
+    <dt>Sync siblings</dt><dd>None (anchor in Move BlendSpace2D + Drift BlendSpace1D both reference this same clip)</dd>
+    <dt>Pose blocking</dt><dd>Standing tall, weight even on both feet. Slow breath cycle: chest rises slightly on inhale, settles on exhale. Optional micro idle motion in arms/head — keep subtle.</dd>
+  </dl>
+  <p><strong>Notes:</strong> This is the most-visible clip — it plays at startup, after every stop, after every hit recovery. Don't make it fidgety; over-animated idle reads as "twitchy" when sustained. Used by both the Move and Drift BlendSpaces, so it has to read as the "settled" pose for both contexts.</p>
+</div>
+
+<div class="clip-card" id="walk_fwd">
+  <h3>walk_fwd</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>30 frames (1.0s @ 30fps) — one full gait cycle</dd>
+    <dt>Loop</dt><dd>Yes — first frame == last frame</dd>
+    <dt>Root motion</dt><dd>None (in-place)</dd>
+    <dt>Sync siblings</dt><dd>walk_lean_L, walk_lean_R (must be identical length, aligned foot strikes)</dd>
+    <dt>Pose blocking</dt><dd>Relaxed forward walk. Frame 0: left heel strike, right foot pushing off. Frame 15: right heel strike, left foot pushing off. Frame 29 → 0: cycle wraps. Arms swing opposite to legs (left arm forward when right leg forward).</dd>
+  </dl>
+  <p><strong>Notes:</strong> Foundational clip for all locomotion. Sets the tempo for the entire walk tier. Foot strikes at 0 and 15 are the anchor phase — lean variants must hit the same frames.</p>
+</div>
+
+<div class="clip-card" id="walk_lean_L">
+  <h3>walk_lean_L</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>30 frames (identical to walk_fwd)</dd>
+    <dt>Loop</dt><dd>Yes</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>walk_fwd, walk_lean_R (matched length, aligned foot strikes at 0 and 15)</dd>
+    <dt>Pose blocking</dt><dd>walk_fwd with torso leaned ~15–20° to the character's left. Shoulder line tilts, hips counter-shift slightly right for balance. Head can follow the lean or stay level (depends on style). Arm swing weighted slightly leftward.</dd>
+  </dl>
+  <p><strong>Notes:</strong> Derive from walk_fwd via duplicate-and-overlay. The lean must read at top-down camera angles — shoulder tilt is the dominant cue. Don't add yaw rotation to the spine; the controller handles all yaw.</p>
+</div>
+
+<div class="clip-card" id="walk_lean_R">
+  <h3>walk_lean_R</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>30 frames (identical to walk_fwd)</dd>
+    <dt>Loop</dt><dd>Yes</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>walk_fwd, walk_lean_L</dd>
+    <dt>Pose blocking</dt><dd>Mirror of walk_lean_L: torso leaned right, hips shift left, etc.</dd>
+  </dl>
+  <p><strong>Notes:</strong> If the rig is symmetric, Blender's "Paste Pose Flipped" can produce this from walk_lean_L's keyframes.</p>
+</div>
+
+<div class="clip-card" id="run_fwd">
+  <h3>run_fwd</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>18 frames (0.6s @ 30fps) — one full gait cycle</dd>
+    <dt>Loop</dt><dd>Yes</dd>
+    <dt>Root motion</dt><dd>None (in-place)</dd>
+    <dt>Sync siblings</dt><dd>run_lean_L, run_lean_R (identical length, foot strikes at 0 and 9)</dd>
+    <dt>Pose blocking</dt><dd>Forward run. Longer stride than walk, more forward lean of torso, larger arm swing, brief airborne phases between foot strikes. Frame 0: left heel strike, right foot in airborne push-off. Frame 9: right heel strike, left in push-off.</dd>
+  </dl>
+  <p><strong>Notes:</strong> Must blend cleanly with walk_fwd. The AnimationTree sync group time-scales between walk's 30-frame cycle and run's 18-frame cycle as speed transitions. Foot phase alignment (left at 0, right at midpoint) keeps the blend coherent — don't put left strike at frame 0 in walk but frame 9 in run.</p>
+</div>
+
+<div class="clip-card" id="run_lean_L">
+  <h3>run_lean_L</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>18 frames (identical to run_fwd)</dd>
+    <dt>Loop</dt><dd>Yes</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>run_fwd, run_lean_R</dd>
+    <dt>Pose blocking</dt><dd>run_fwd with torso leaned ~20–25° left. Lean angle can be stronger than walk variants because the running pose already has more forward lean — the additive lean compounds. Arm swing favors the lean side.</dd>
+  </dl>
+  <p><strong>Notes:</strong> Same derivation strategy as walk_lean_L.</p>
+</div>
+
+<div class="clip-card" id="run_lean_R">
+  <h3>run_lean_R</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>18 frames (identical to run_fwd)</dd>
+    <dt>Loop</dt><dd>Yes</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>run_fwd, run_lean_L</dd>
+    <dt>Pose blocking</dt><dd>Mirror of run_lean_L.</dd>
+  </dl>
+</div>
+
+<div class="clip-card" id="drift_walk">
+  <h3>drift_walk</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>~30 frames (1.0s @ 30fps), flexible</dd>
+    <dt>Loop</dt><dd>Yes — but loop point less critical (drift is typically short-duration before transitioning to idle)</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>drift_run (Drift BlendSpace1D group)</dd>
+    <dt>Pose blocking</dt><dd>"Coasting" / "post-stop" body language. Upper body leaned slightly <strong>backward</strong> (opposite of forward locomotion). Arms trail behind or hang loose. Knees slightly bent for braking. Foot pattern can be a slow drag, a relaxed step-and-hold, or a glide pose with minimal foot motion.</dd>
+  </dl>
+  <p><strong>Notes:</strong> No library template for this — "coast after releasing input" isn't a standard mocap clip. Most likely path is to author from drift-specific reference (ice skater gliding to stop, character sliding on loose surface). This is the clip that gives drift its distinct visual identity vs. walk.</p>
+</div>
+
+<div class="clip-card" id="drift_run">
+  <h3>drift_run</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>~18 frames (0.6s @ 30fps), flexible</dd>
+    <dt>Loop</dt><dd>Yes (same loop-tolerance note as drift_walk)</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>drift_walk</dd>
+    <dt>Pose blocking</dt><dd>drift_walk's coast pose at higher speed. More aggressive backward lean. Faster but lazier foot pattern — heels lead, character is "letting momentum carry them."</dd>
+  </dl>
+  <p><strong>Notes:</strong> Same authoring approach as drift_walk. The lean-back amount should feel proportional to the speed it's coasting from.</p>
+</div>
+
+<div class="clip-card" id="pivot_skid">
+  <h3>pivot_skid</h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>~10–12 frames (0.33–0.4s @ 30fps)</dd>
+    <dt>Loop</dt><dd>No — one-shot, auto-advances to Move at end</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>None directly, but the AnimationTree uses Sync switch mode entering Pivot — so the clip's start frame should make sense layered over the running gait's foot-plant phase</dd>
+    <dt>Pose blocking</dt><dd>Front-loaded: first 1/3 (frames 0–3) is the skid impact — heel jams down, body rotates AWAY from the new direction (anticipation pose), arms windmill or brace. Middle 1/3 (frames 3–7): body re-orients toward the new direction, foot pivots. Final 1/3 (frames 7–11): settle into neutral, ready to transition to Move.</dd>
+  </dl>
+  <p><strong>Notes:</strong> The most expressive single clip in the set. Anticipation pose (body twisting opposite the new direction) is critical for making the pivot feel impactful — without it, the skid reads as a teleport. Reference: NBA player pivoting on a hard cut, or Mario's skid animation.</p>
+</div>
+
+<div class="clip-card" id="dash_burst">
+  <h3>dash_burst <span class="badge additive">additive</span></h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>~10 frames (0.33s @ 30fps) — matches controller's <code>impulse_decay</code> tail</dd>
+    <dt>Loop</dt><dd>No — one-shot, OneShot Add at BlendTree root</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>None (overlay clip; runs in parallel to whatever locomotion state is active)</dd>
+    <dt>Pose blocking</dt><dd>Upper body / arms / torso only. Frame 0: rig bind pose (zero delta). Frames 1–3: brace pose — torso braces forward into the dash, arms pull back, head dips. Frames 4–6: hold or slight follow-through. Frames 7–10: ease back to bind pose. <strong>Do not animate legs</strong> — they're cycling in the locomotion state underneath.</dd>
+  </dl>
+  <div class="callout">
+    <strong>Additive authoring is the trickiest in the set.</strong> Frame 0 must equal the bind pose, otherwise the OneShot Add will offset the locomotion result by the difference. Preview in Blender by stacking the dash_burst NLA strip with blend mode = Add over walk_fwd and run_fwd — if it doesn't look right there, it won't look right in Godot.
+  </div>
+  <p><strong>Notes:</strong> If you also want a hair/cape flare, animate the cloth bones here — they're not part of locomotion so additive layering won't conflict.</p>
+</div>
+
+<div class="clip-card stub" id="hit_flinch">
+  <h3>hit_flinch <span class="badge stub">stub</span></h3>
+  <dl class="clip-meta">
+    <dt>Length</dt><dd>~12 frames (0.4s @ 30fps)</dd>
+    <dt>Loop</dt><dd>No — one-shot, auto-advances to Idle at end</dd>
+    <dt>Root motion</dt><dd>None</dd>
+    <dt>Sync siblings</dt><dd>None</dd>
+    <dt>Pose blocking</dt><dd>Short flinch. Frames 0–3: torso recoils slightly, head jerks back, arms come up defensively (forearm cross or guard pose). Frames 4–8: hold. Frames 9–11: relax back toward neutral.</dd>
+  </dl>
+  <p><strong>Notes:</strong> Authoring quality bar is intentionally low — this is a placeholder until the damage system spec exists and you decide whether to do directional variants (hit_front / hit_back / hit_L / hit_R). Don't over-invest now.</p>
+</div>
+
+<h2 id="order">Authoring order <a class="anchor-link" href="#order">#</a></h2>
+
+<p>Recommended order — earlier clips inform later ones, dependencies first.</p>
+
+<ol>
+  <li><strong><code>idle</code></strong> — sets the rest pose, body shape, personality. Everything else flows from this baseline.</li>
+  <li><strong><code>walk_fwd</code></strong> — establishes the walk gait baseline. Get foot timing and stride feel right here; all walk variants inherit.</li>
+  <li><strong><code>run_fwd</code></strong> — extends the gait at speed. Confirm walk and run blend cleanly by previewing a manual interpolation between them in Blender's NLA.</li>
+  <li><strong><code>drift_walk</code> + <code>drift_run</code></strong> — derive from walk_fwd / run_fwd with upper-body coast adjustment. Tackle them as a pair so the lean and pacing feel consistent.</li>
+  <li><strong><code>walk_lean_L</code>, <code>walk_lean_R</code>, <code>run_lean_L</code>, <code>run_lean_R</code></strong> — derive from forward variants with lean offsets. Do L then mirror to R via Paste Pose Flipped.</li>
+  <li><strong><code>pivot_skid</code></strong> — high-effort single clip. Worth iterating on; this is the most-noticed pose-only moment in the locomotion loop.</li>
+  <li><strong><code>hit_flinch</code></strong> — quick stub. 30 minutes max; replace later.</li>
+  <li><strong><code>dash_burst</code></strong> — last. Requires understanding how additive layering reads. Test in Blender's NLA against walk_fwd and run_fwd before committing.</li>
+</ol>
+
+<p>After the full set is in Blender and previewing cleanly, export to <code>assets/models/player.glb</code>, then move to the Godot AnimationTree wiring step (see the spec's "Implementation order" section).</p>
+
+<h2 id="refs">References <a class="anchor-link" href="#refs">#</a></h2>
+
+<ul>
+  <li><code>docs/superpowers/specs/2026-05-24-animation-state-machine-design.md</code> — the formal spec this guide supports.</li>
+  <li><code>docs/asset-pipeline.md</code> — Blender → Godot export discipline (axis swap, glTF settings, file conventions).</li>
+  <li><code>docs/blender-mcp-guide.md</code> — Blender MCP tool conventions if using MCP-assisted authoring.</li>
+  <li><code>docs/godot-mcp-guide.md</code> — Godot MCP conventions for the AnimationTree wiring phase.</li>
+  <li><code>docs/godot-gotchas.md</code> — project-portable Godot quirks to know during AnimationTree build (Inspector null-override, etc.).</li>
+</ul>
+
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "godot-mcp": {
+      "command": "npx",
+      "args": ["-y", "@satelliteoflove/godot-mcp"]
+    },
+    "godot": {
+      "command": "npx",
+      "args": ["-y", "@ryanmazzolini/minimal-godot-mcp"]
+    }
+  }
+}
