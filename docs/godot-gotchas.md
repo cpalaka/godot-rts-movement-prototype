@@ -114,6 +114,25 @@ Following stale instructions produces no error — the user just can't find the 
 
 ---
 
+## AnimationTree dock spams stale-preview errors during incremental build (Godot 4.6.2)
+
+**Symptom:** While a scene containing a freshly-built `AnimationTree` is open in the editor, the Output panel spams two errors continuously (every frame, hundreds per second):
+
+- `Type mismatch between initial and final value: float and bool` (and `bool and float`) — fires in `animation.cpp:5723` (`validate_type_match`).
+- `Condition "playback_new.is_null()" is true. Returning: AnimationNode::NodeTimeInfo()` — fires in `animation_node_state_machine.cpp:1640` (`_process`).
+
+The errors fire even when `AnimationTree.active = false`. They fire even when the `AnimationTree` node isn't selected. They fire as long as the scene is open. Switching to a different scene (e.g., `main.tscn`) silences them; coming back resumes them.
+
+**Cause:** During a session where you incrementally build an AnimationTree topology — adding `StateMachine`, `SubStateMachine`, `BlendSpace2D`, `OneShot`, etc., one at a time, with saves in between — the editor's AnimationTree dock holds a preview/evaluation cache that can fall out of sync with the actual sub-resource tree. The dock's continuous preview tries to evaluate the stale cache against the newer tree, hitting type mismatches and missing sub-state playbacks.
+
+**Fix:** Close the scene tab (`Cmd+W` or right-click the tab → Close) and reopen it from the FileSystem dock. Forces the editor to rebuild its preview cache from the on-disk `.tscn`. Errors stop immediately. No `.tscn` change required — `git status` confirms the file is untouched.
+
+**Detect proactively:** After a session of incremental AnimationTree dock work, if the Output panel is noisy, try closing+reopening the affected scene tab *before* hunting for a real type mismatch in the animation clips. (Real type mismatches in imported `.glb` clips do exist — see related forum threads — but a fresh first-import with clean Skeleton3D `position_3d`/`rotation_3d` tracks is unlikely to produce them.)
+
+**Confirmed by:** Step 5 of the animation roadmap (2026-05-26). After 10 tasks of incremental AnimationTree construction in `scenes/player.tscn`, the Output panel was spamming both error types. Closing the player scene tab and reopening from FileSystem silenced them; the on-disk `.tscn` was unchanged (`git status` clean). User reported: "I closed the player scene I had open and reopened it and the errors stopped... they were only happening when I was on the player scene." Cross-references the Godot Forum thread (https://forum.godotengine.org/t/type-mismatch-between-initial-and-final-value/123942), which discusses a related-but-distinct case (stale animation references after `.glb` re-import). Both cases share the symptom; the fix here (scene reload) is lighter than the forum fix (delete-anim-from-tree before re-import).
+
+---
+
 ## (Existing project-level gotchas)
 
 These also exist but live in their own dedicated docs — listed here for discoverability:
