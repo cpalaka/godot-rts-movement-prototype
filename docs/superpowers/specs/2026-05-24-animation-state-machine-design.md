@@ -1,7 +1,7 @@
 # Player Animation — State Machine Design
 
 **Date:** 2026-05-24
-**Status:** Approved design, pre-implementation
+**Status:** Implemented (2026-05-26)
 **Related:**
 - Movement spec: `2026-05-24-rts-movement-depth-design.md` (this spec extends it with the animation layer)
 - Authoring reference: `docs/animation-authoring-guide.html` (per-clip Blender notes)
