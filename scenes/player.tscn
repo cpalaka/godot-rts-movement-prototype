@@ -23,13 +23,23 @@ animation = &"hit_flinch"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tuyoq"]
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g2els"]
+xfade_time = 0.05
+priority = 2
+advance_condition = &"is_hit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qhqgy"]
+xfade_time = 0.15
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_dqkch"]
 states/Hit/node = SubResource("AnimationNodeAnimation_qhqgy")
-states/Hit/position = Vector2(427.53973, 167.96997)
+states/Hit/position = Vector2(586.53973, 58.45752)
 states/Locomotion/node = SubResource("AnimationNodeStateMachine_qlg0r")
-states/Locomotion/position = Vector2(425.85965, -50.55493)
+states/Locomotion/position = Vector2(369.35965, 56.44507)
 states/Start/position = Vector2(159, 75.5)
-transitions = ["Start", "Locomotion", SubResource("AnimationNodeStateMachineTransition_tuyoq")]
+transitions = ["Start", "Locomotion", SubResource("AnimationNodeStateMachineTransition_tuyoq"), "Locomotion", "Hit", SubResource("AnimationNodeStateMachineTransition_g2els"), "Hit", "Locomotion", SubResource("AnimationNodeStateMachineTransition_qhqgy")]
 graph_offset = Vector2(-216.96027, -342.03003)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_qlg0r"]
@@ -56,6 +66,7 @@ shape = SubResource("CapsuleShape3D_collision")
 root_node = NodePath("../Model")
 tree_root = SubResource("AnimationNodeBlendTree_qlg0r")
 anim_player = NodePath("../Model/AnimationPlayer")
+parameters/Top/conditions/is_hit = false
 parameters/DashShot/active = false
 parameters/DashShot/internal_active = false
 parameters/DashShot/request = 0
