@@ -1,10 +1,8 @@
 extends CharacterBody3D
 
 
-# Signals for the animation binding (player_anim.gd, future session).
-@warning_ignore("unused_signal")
+# Signals for the animation binding (player_anim.gd).
 signal dash_fired
-@warning_ignore("unused_signal")
 signal pivot_started
 
 
