@@ -7,6 +7,27 @@
 radius = 0.4
 height = 1.8
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g2els"]
+animation = &"dash_burst"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_qhqgy"]
+mix_mode = 1
+fadein_time = 0.05
+fadeout_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_dqkch"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_qlg0r"]
+graph_offset = Vector2(-2.8813033, -79.679855)
+nodes/output/position = Vector2(1140, 190)
+nodes/Top/node = SubResource("AnimationNodeStateMachine_dqkch")
+nodes/Top/position = Vector2(540, 230)
+nodes/DashShot/node = SubResource("AnimationNodeOneShot_qhqgy")
+nodes/DashShot/position = Vector2(870, 330)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_g2els")
+nodes/Animation/position = Vector2(560, 470)
+node_connections = [&"output", 0, &"DashShot", &"DashShot", 0, &"Top", &"DashShot", 1, &"Animation"]
+
 [node name="Player" type="CharacterBody3D" unique_id=2039112720]
 script = ExtResource("1_tuyoq")
 
@@ -18,4 +39,8 @@ shape = SubResource("CapsuleShape3D_collision")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1031525747]
 root_node = NodePath("../Model")
+tree_root = SubResource("AnimationNodeBlendTree_qlg0r")
 anim_player = NodePath("../Model/AnimationPlayer")
+parameters/DashShot/active = false
+parameters/DashShot/internal_active = false
+parameters/DashShot/request = 0
