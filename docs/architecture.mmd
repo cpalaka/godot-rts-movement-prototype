@@ -1,0 +1,82 @@
+flowchart TB
+
+  %% ─── Engine config & autoloads ───────────────────────────────
+  subgraph CFG["Engine config (project.godot)"]
+    direction TB
+    PG["Forward+ renderer<br/>Jolt 3D physics<br/>1920×1080 viewport"]
+    IN["Input map<br/>(dash, toggle_fullscreen)"]
+    AL_FS["Autoload: FullscreenToggle<br/>(fullscreen_toggle.gd)"]
+    AL_MCP["Autoload: MCPGameBridge<br/>(addons/godot_mcp)"]
+    PLG["Editor plugin: godot_mcp"]
+  end
+
+  %% ─── Runtime scene tree ─────────────────────────────────────
+  subgraph SCN["Runtime scene tree"]
+    direction TB
+    MAIN["main.tscn — Node3D<br/>(main scene)"]
+    SUN["Sun · DirectionalLight3D"]
+    ENV["Env · WorldEnvironment"]
+    CAM["Camera_Dota · Camera3D<br/>(fixed isometric)"]
+    NAV["NavRegion · NavigationRegion3D"]
+    GND["Ground · MeshInstance3D"]
+
+    subgraph PLAYER["Player (player.tscn)"]
+      direction TB
+      PLR["Player · CharacterBody3D"]
+      COL["Collision · CapsuleShape3D"]
+      MDL["Model<br/>(player_inherited.tscn)"]
+      AP["AnimationPlayer<br/>(inside rig)"]
+      AT["AnimationTree<br/>BlendTree → StateMachine<br/>Locomotion · Hit · DashShot"]
+    end
+
+    MAIN --> SUN & ENV & CAM & NAV & PLR
+    NAV --> GND
+    PLR --> COL & MDL & AT
+    MDL --> AP
+    AT -. animates .-> AP
+  end
+
+  %% ─── Scripts ────────────────────────────────────────────────
+  subgraph SCR["GDScript"]
+    direction TB
+    SP["player.gd<br/>steering · dash · facing"]
+    SA["player_anim.gd<br/>(class_name PlayerAnimBinding)<br/>drives AT parameters"]
+  end
+
+  %% ─── Resources & asset pipeline ─────────────────────────────
+  subgraph RES["Resources & asset pipeline"]
+    direction TB
+    ENVT["environments/default_env.tres"]
+    MAT["materials/grid_material.tres"]
+    SHD["scripts/shaders/grid.gdshader"]
+    MSH["meshes/plane_100.tres"]
+    GLB["assets/models/player.glb"]
+    BLENDER[("Blender source<br/>model · rig · animations")]
+  end
+
+  %% ─── Cross-layer wiring ─────────────────────────────────────
+  PG -. main_scene .-> MAIN
+  PG --- IN & AL_FS & AL_MCP & PLG
+
+  SP -. attached to .-> PLR
+  SA -. attached to .-> AT
+  SP == "dash_fired<br/>pivot_started" ==> SA
+
+  ENV -. uses .-> ENVT
+  GND -. material .-> MAT
+  GND -. mesh .-> MSH
+  MAT -. shader .-> SHD
+  MDL -. inherits .-> GLB
+  GLB -. exported from .-> BLENDER
+
+  classDef cfg     fill:#eef2ff,stroke:#4f46e5,color:#1e1b4b
+  classDef scn     fill:#ecfdf5,stroke:#059669,color:#064e3b
+  classDef scr     fill:#fef3c7,stroke:#d97706,color:#78350f
+  classDef res     fill:#fae8ff,stroke:#a21caf,color:#581c87
+  classDef ext     fill:#f1f5f9,stroke:#475569,color:#0f172a
+
+  class PG,IN,AL_FS,AL_MCP,PLG cfg
+  class MAIN,SUN,ENV,CAM,NAV,GND,PLR,COL,MDL,AP,AT scn
+  class SP,SA scr
+  class ENVT,MAT,SHD,MSH,GLB res
+  class BLENDER ext

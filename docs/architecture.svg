@@ -1,0 +1,240 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1816.9679166666665 1532.9" width="1816.9679166666665" height="1532.9" style="--bg:#f5f5f5;--fg:#333333;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="CFG" data-label="Engine config (project.godot)">
+  <rect x="583.3081666666666" y="40" width="885.9019999999998" height="232.5" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="583.3081666666666" y="40" width="885.9019999999998" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="595.3081666666666" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Engine config (project.godot)</text>
+</g>
+<g class="subgraph" data-id="SCN" data-label="Runtime scene tree">
+  <rect x="462.71541666666656" y="388.8" width="1274.2524999999998" height="706.8000000000001" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="462.71541666666656" y="388.8" width="1274.2524999999998" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="474.71541666666656" y="402.8" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Runtime scene tree</text>
+<g class="subgraph" data-id="PLAYER" data-label="Player (player.tscn)">
+  <rect x="941.4719166666665" y="636.4000000000001" width="572.0509999999999" height="419.20000000000005" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="941.4719166666665" y="636.4000000000001" width="572.0509999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="953.4719166666665" y="650.4000000000001" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Player (player.tscn)</text>
+</g>
+</g>
+<g class="subgraph" data-id="SCR" data-label="GDScript">
+  <rect x="40" y="40" width="303.90124999999995" height="315.1" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="40" width="303.90124999999995" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">GDScript</text>
+</g>
+<g class="subgraph" data-id="RES" data-label="Resources &amp; asset pipeline">
+  <rect x="363.90124999999995" y="1211.9" width="904.4699999999999" height="281" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="363.90124999999995" y="1211.9" width="904.4699999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="375.90124999999995" y="1225.9" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Resources &amp; asset pipeline</text>
+</g>
+<polyline class="edge" data-from="MAIN" data-to="PLR" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1241.6861666666664,486.6 1241.6861666666664,512.7125000000001 1295.8909166666665,512.7125000000001 1295.8909166666665,680.4000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PG" data-to="MAIN" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="main_scene" points="1165.956333333333,154.7 1165.956333333333,178.7 1241.6861666666664,178.7 1241.6861666666664,272.5 1241.6861666666664,388.8 1241.6861666666664,432.8" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SP" data-to="PLR" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="attached to" points="115.92533333333333,137.8 115.92533333333333,149.8 81.55025,149.8 81.55025,355.1 20,355.1 20,680.4000000000001 1262.2232499999998,680.4000000000001" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SA" data-to="AT" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="attached to" points="210.22574999999998,339.1 210.22575,355.1 1768.9679166666665,355.1 1768.9679166666665,765.3000000000001 1026.2892499999998,765.3000000000001" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="ENV" data-to="ENVT" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="uses" points="1627.7454166666666,575.7250000000001 1627.7454166666666,1095.6000000000001 1627.7454166666666,1131.6000000000001 1264.6074999999998,1131.6000000000001 1264.6074999999998,1187.9 490.1667499999999,1187.9 490.1667499999999,1211.9 490.1667499999999,1255.9" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="GND" data-to="MAT" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="material" points="789.2712499999999,924.5333333333335 789.2712499999999,1095.6000000000001 789.2712499999999,1131.6000000000001 718.6853333333332,1131.6000000000001 718.6853333333332,1199.9 733.2912499999999,1199.9 733.2912499999999,1211.9 733.2912499999999,1255.9" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="GND" data-to="MSH" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="mesh" points="855.3715833333332,924.5333333333335 855.3715833333332,1095.6000000000001 855.3715833333332,1199.9 954.1857499999999,1199.9 954.1857499999999,1211.9 954.1857499999999,1255.9" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="MDL" data-to="GLB" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="inherits" points="1439.0795833333332,941.4333333333335 1439.0795833333332,1055.6000000000001 8,1055.6000000000001 8,1255.9 1157.2962499999999,1255.9" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PG" data-to="IN" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="1113.194,154.7 1113.194,178.7 926.2416666666666,178.7 926.2416666666666,202.7" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="PG" data-to="AL_FS" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="1086.8128333333332,154.7 1086.8128333333332,166.7 702.1636666666666,166.7 702.1636666666666,202.7" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="PG" data-to="AL_MCP" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="1192.3374999999999,154.7 1192.3374999999999,166.7 1352.9481666666666,166.7 1352.9481666666666,202.7" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="PG" data-to="PLG" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="1139.5751666666665,154.7 1139.5751666666665,202.7" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="MAIN" data-to="SUN" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1241.6861666666664,486.6 1241.6861666666664,512.7125000000001 1241.6861666666666,512.7125000000001 1241.6861666666666,538.825" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="MAIN" data-to="ENV" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1241.6861666666664,486.6 1241.6861666666664,512.7125000000001 1627.7454166666664,512.7125000000001 1627.7454166666664,538.825" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="MAIN" data-to="CAM" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1241.6861666666664,486.6 1241.6861666666664,512.7125000000001 576.7544166666665,512.7125000000001 576.7544166666665,538.825" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="MAIN" data-to="NAV" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1241.6861666666664,486.6 1241.6861666666664,512.7125000000001 822.3214166666666,512.7125000000001 822.3214166666666,538.825" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="NAV" data-to="GND" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="822.3214166666664,575.7250000000001 822.3214166666666,887.6333333333334" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PLR" data-to="COL" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1295.8909166666665,717.3000000000001 1295.8909166666665,741.3000000000001 1295.8909166666665,741.3000000000001 1295.8909166666665,765.3000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PLR" data-to="MDL" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1295.8909166666665,717.3000000000001 1295.8909166666665,741.3000000000001 1409.8579166666664,741.3000000000001 1409.8579166666664,887.6333333333334" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PLR" data-to="AT" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1295.8909166666665,717.3000000000001 1295.8909166666665,741.3000000000001 1060.6979166666665,741.3000000000001 1060.6979166666665,765.3000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="MDL" data-to="AP" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1380.6362499999998,941.4333333333335 1380.6362499999998,949.8000000000002 1106.7912499999998,949.8000000000002 1106.7912499999998,985.8000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="AT" data-to="AP" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="animates" points="1060.6979166666665,836.0000000000001 1060.6979166666665,985.8000000000002" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SP" data-to="SA" data-style="thick" data-arrow-start="false" data-arrow-end="true" data-label="dash_fired
+pivot_started" points="175.85066666666665,137.8 175.85066666666665,149.8 210.22575,149.8 210.22574999999998,268.4" fill="none" stroke="var(--_line)" stroke-width="2" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="MAT" data-to="SHD" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="shader" points="733.2912499999999,1292.8000000000002 733.2912499999999,1409.1000000000001" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="GLB" data-to="BLENDER" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="exported from" points="1157.2962499999999,1292.8000000000002 1157.2962499999999,1409.1000000000001" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="PG" data-to="MAIN" data-label="main_scene">
+  <rect x="1204.1861666666664" y="315.5" width="74.674" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1241.5231666666664" y="330.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">main_scene</text>
+</g>
+<g class="edge-label" data-from="SP" data-to="PLR" data-label="attached to">
+  <rect x="287.77895833333315" y="665.2500000000001" width="68.14" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="321.84895833333314" y="680.4000000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">attached to</text>
+</g>
+<g class="edge-label" data-from="SA" data-to="AT" data-label="attached to">
+  <rect x="1523.9661666666668" y="339.95000000000005" width="68.14" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1558.0361666666668" y="355.1" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">attached to</text>
+</g>
+<g class="edge-label" data-from="ENV" data-to="ENVT" data-label="uses">
+  <rect x="1243.6074999999998" y="1138.6000000000001" width="41.41" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1264.3124999999998" y="1153.7500000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">uses</text>
+</g>
+<g class="edge-label" data-from="GND" data-to="MAT" data-label="material">
+  <rect x="691.1853333333332" y="1138.6000000000001" width="54.47800000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="718.4243333333333" y="1153.7500000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">material</text>
+</g>
+<g class="edge-label" data-from="GND" data-to="MSH" data-label="mesh">
+  <rect x="833.8715833333332" y="1138.6000000000001" width="42.598" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="855.1705833333332" y="1153.7500000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">mesh</text>
+</g>
+<g class="edge-label" data-from="MDL" data-to="GLB" data-label="inherits">
+  <rect x="80.99666666666664" y="1040.45" width="53.290000000000006" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="107.64166666666665" y="1055.6000000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">inherits</text>
+</g>
+<g class="edge-label" data-from="AT" data-to="AP" data-label="animates">
+  <rect x="1030.6979166666665" y="895.7500000000001" width="59.230000000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1060.3129166666665" y="910.9000000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">animates</text>
+</g>
+<g class="edge-label" data-from="SP" data-to="SA" data-label="dash_fired
+pivot_started">
+  <rect x="170.22574999999995" y="180.8" width="79.42600000000002" height="44.6" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="209.93874999999997" y="203.10000000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)"><tspan x="209.93874999999997" dy="-3.3000000000000007">dash_fired</tspan><tspan x="209.93874999999997" dy="14.3">pivot_started</tspan></text>
+</g>
+<g class="edge-label" data-from="MAT" data-to="SHD" data-label="shader">
+  <rect x="706.7912499999999" y="1335.8" width="52.102" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="732.8422499999999" y="1350.95" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">shader</text>
+</g>
+<g class="edge-label" data-from="GLB" data-to="BLENDER" data-label="exported from">
+  <rect x="1115.7962499999999" y="1335.8" width="82.39600000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1156.99425" y="1350.95" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">exported from</text>
+</g>
+<g class="node" data-id="PG" data-label="Forward+ renderer
+Jolt 3D physics
+1920×1080 viewport" data-shape="rectangle">
+  <rect x="1060.4316666666664" y="84" width="158.287" height="70.7" rx="0" ry="0" fill="#eef2ff" stroke="#4f46e5" stroke-width="0.75" />
+  <text x="1139.5751666666663" y="119.35" text-anchor="middle" font-size="13" font-weight="500" fill="#1e1b4b"><tspan x="1139.5751666666663" dy="-12.350000000000001">Forward+ renderer</tspan><tspan x="1139.5751666666663" dy="16.900000000000002">Jolt 3D physics</tspan><tspan x="1139.5751666666663" dy="16.900000000000002">1920×1080 viewport</tspan></text>
+</g>
+<g class="node" data-id="IN" data-label="Input map
+(dash, toggle_fullscreen)" data-shape="rectangle">
+  <rect x="833.0191666666665" y="202.7" width="186.44500000000002" height="53.800000000000004" rx="0" ry="0" fill="#eef2ff" stroke="#4f46e5" stroke-width="0.75" />
+  <text x="926.2416666666664" y="229.6" text-anchor="middle" font-size="13" font-weight="500" fill="#1e1b4b"><tspan x="926.2416666666664" dy="-3.9000000000000012">Input map</tspan><tspan x="926.2416666666664" dy="16.900000000000002">(dash, toggle_fullscreen)</tspan></text>
+</g>
+<g class="node" data-id="AL_FS" data-label="Autoload: FullscreenToggle
+(fullscreen_toggle.gd)" data-shape="rectangle">
+  <rect x="599.3081666666666" y="202.7" width="205.71099999999996" height="53.800000000000004" rx="0" ry="0" fill="#eef2ff" stroke="#4f46e5" stroke-width="0.75" />
+  <text x="702.1636666666666" y="229.6" text-anchor="middle" font-size="13" font-weight="500" fill="#1e1b4b"><tspan x="702.1636666666666" dy="-3.9000000000000012">Autoload: FullscreenToggle</tspan><tspan x="702.1636666666666" dy="16.900000000000002">(fullscreen_toggle.gd)</tspan></text>
+</g>
+<g class="node" data-id="AL_MCP" data-label="Autoload: MCPGameBridge
+(addons/godot_mcp)" data-shape="rectangle">
+  <rect x="1252.6861666666664" y="202.7" width="200.52399999999994" height="53.800000000000004" rx="0" ry="0" fill="#eef2ff" stroke="#4f46e5" stroke-width="0.75" />
+  <text x="1352.9481666666663" y="229.6" text-anchor="middle" font-size="13" font-weight="500" fill="#1e1b4b"><tspan x="1352.9481666666663" dy="-3.9000000000000012">Autoload: MCPGameBridge</tspan><tspan x="1352.9481666666663" dy="16.900000000000002">(addons/godot_mcp)</tspan></text>
+</g>
+<g class="node" data-id="PLG" data-label="Editor plugin: godot_mcp" data-shape="rectangle">
+  <rect x="1047.4641666666666" y="202.7" width="184.22199999999998" height="36.900000000000006" rx="0" ry="0" fill="#eef2ff" stroke="#4f46e5" stroke-width="0.75" />
+  <text x="1139.5751666666665" y="221.14999999999998" text-anchor="middle" font-size="13" font-weight="500" fill="#1e1b4b" dy="4.55">Editor plugin: godot_mcp</text>
+</g>
+<g class="node" data-id="MAIN" data-label="main.tscn — Node3D
+(main scene)" data-shape="rectangle">
+  <rect x="1163.6541666666665" y="432.8" width="156.064" height="53.800000000000004" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="1241.6861666666664" y="459.7" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b"><tspan x="1241.6861666666664" dy="-3.9000000000000012">main.tscn — Node3D</tspan><tspan x="1241.6861666666664" dy="16.900000000000002">(main scene)</tspan></text>
+</g>
+<g class="node" data-id="SUN" data-label="Sun · DirectionalLight3D" data-shape="rectangle">
+  <rect x="1148.0931666666665" y="538.825" width="187.18599999999998" height="36.900000000000006" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="1241.6861666666666" y="557.2750000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b" dy="4.55">Sun · DirectionalLight3D</text>
+</g>
+<g class="node" data-id="ENV" data-label="Env · WorldEnvironment" data-shape="rectangle">
+  <rect x="1534.5229166666663" y="538.825" width="186.44499999999996" height="36.900000000000006" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="1627.7454166666664" y="557.2750000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b" dy="4.55">Env · WorldEnvironment</text>
+</g>
+<g class="node" data-id="CAM" data-label="Camera_Dota · Camera3D
+(fixed isometric)" data-shape="rectangle">
+  <rect x="478.71541666666656" y="538.825" width="196.078" height="53.800000000000004" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="576.7544166666665" y="565.725" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b"><tspan x="576.7544166666665" dy="-3.9000000000000012">Camera_Dota · Camera3D</tspan><tspan x="576.7544166666665" dy="16.900000000000002">(fixed isometric)</tspan></text>
+</g>
+<g class="node" data-id="NAV" data-label="NavRegion · NavigationRegion3D" data-shape="rectangle">
+  <rect x="702.7934166666665" y="538.825" width="239.05599999999995" height="36.900000000000006" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="822.3214166666666" y="557.2750000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b" dy="4.55">NavRegion · NavigationRegion3D</text>
+</g>
+<g class="node" data-id="GND" data-label="Ground · MeshInstance3D" data-shape="rectangle">
+  <rect x="723.1709166666666" y="887.6333333333334" width="198.30099999999996" height="36.900000000000006" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="822.3214166666666" y="906.0833333333335" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b" dy="4.55">Ground · MeshInstance3D</text>
+</g>
+<g class="node" data-id="PLR" data-label="Player · CharacterBody3D" data-shape="rectangle">
+  <rect x="1194.8879166666666" y="680.4000000000001" width="202.00599999999997" height="36.900000000000006" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="1295.8909166666665" y="698.8500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b" dy="4.55">Player · CharacterBody3D</text>
+</g>
+<g class="node" data-id="COL" data-label="Collision · CapsuleShape3D" data-shape="rectangle">
+  <rect x="1191.9239166666664" y="765.3000000000001" width="207.934" height="36.900000000000006" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="1295.8909166666665" y="783.7500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b" dy="4.55">Collision · CapsuleShape3D</text>
+</g>
+<g class="node" data-id="MDL" data-label="Model
+(player_inherited.tscn)" data-shape="rectangle">
+  <rect x="1322.1929166666664" y="887.6333333333334" width="175.33" height="53.800000000000004" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="1409.8579166666664" y="914.5333333333334" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b"><tspan x="1409.8579166666664" dy="-3.9000000000000012">Model</tspan><tspan x="1409.8579166666664" dy="16.900000000000002">(player_inherited.tscn)</tspan></text>
+</g>
+<g class="node" data-id="AP" data-label="AnimationPlayer
+(inside rig)" data-shape="rectangle">
+  <rect x="1014.6045833333332" y="985.8000000000002" width="138.28000000000003" height="53.800000000000004" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="1083.7445833333331" y="1012.7000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b"><tspan x="1083.7445833333331" dy="-3.9000000000000012">AnimationPlayer</tspan><tspan x="1083.7445833333331" dy="16.900000000000002">(inside rig)</tspan></text>
+</g>
+<g class="node" data-id="AT" data-label="AnimationTree
+BlendTree → StateMachine
+Locomotion · Hit · DashShot" data-shape="rectangle">
+  <rect x="957.4719166666665" y="765.3000000000001" width="206.45199999999994" height="70.7" rx="0" ry="0" fill="#ecfdf5" stroke="#059669" stroke-width="0.75" />
+  <text x="1060.6979166666665" y="800.6500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#064e3b"><tspan x="1060.6979166666665" dy="-12.350000000000001">AnimationTree</tspan><tspan x="1060.6979166666665" dy="16.900000000000002">BlendTree → StateMachine</tspan><tspan x="1060.6979166666665" dy="16.900000000000002">Locomotion · Hit · DashShot</tspan></text>
+</g>
+<g class="node" data-id="SP" data-label="player.gd
+steering · dash · facing" data-shape="rectangle">
+  <rect x="56" y="84" width="179.77599999999998" height="53.800000000000004" rx="0" ry="0" fill="#fef3c7" stroke="#d97706" stroke-width="0.75" />
+  <text x="145.88799999999998" y="110.9" text-anchor="middle" font-size="13" font-weight="500" fill="#78350f"><tspan x="145.88799999999998" dy="-3.9000000000000012">player.gd</tspan><tspan x="145.88799999999998" dy="16.900000000000002">steering · dash · facing</tspan></text>
+</g>
+<g class="node" data-id="SA" data-label="player_anim.gd
+(class_name PlayerAnimBinding)
+drives AT parameters" data-shape="rectangle">
+  <rect x="92.55025" y="268.4" width="235.35099999999994" height="70.7" rx="0" ry="0" fill="#fef3c7" stroke="#d97706" stroke-width="0.75" />
+  <text x="210.22574999999998" y="303.75" text-anchor="middle" font-size="13" font-weight="500" fill="#78350f"><tspan x="210.22574999999998" dy="-12.350000000000001">player_anim.gd</tspan><tspan x="210.22574999999998" dy="16.900000000000002">(class_name PlayerAnimBinding)</tspan><tspan x="210.22574999999998" dy="16.900000000000002">drives AT parameters</tspan></text>
+</g>
+<g class="node" data-id="ENVT" data-label="environments/default_env.tres" data-shape="rectangle">
+  <rect x="379.90124999999995" y="1255.9" width="220.53099999999995" height="36.900000000000006" rx="0" ry="0" fill="#fae8ff" stroke="#a21caf" stroke-width="0.75" />
+  <text x="490.1667499999999" y="1274.3500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#581c87" dy="4.55">environments/default_env.tres</text>
+</g>
+<g class="node" data-id="MAT" data-label="materials/grid_material.tres" data-shape="rectangle">
+  <rect x="631.9177499999998" y="1255.9" width="202.74699999999996" height="36.900000000000006" rx="0" ry="0" fill="#fae8ff" stroke="#a21caf" stroke-width="0.75" />
+  <text x="733.2912499999998" y="1274.3500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#581c87" dy="4.55">materials/grid_material.tres</text>
+</g>
+<g class="node" data-id="SHD" data-label="scripts/shaders/grid.gdshader" data-shape="rectangle">
+  <rect x="620.4322499999998" y="1409.1000000000001" width="225.718" height="36.900000000000006" rx="0" ry="0" fill="#fae8ff" stroke="#a21caf" stroke-width="0.75" />
+  <text x="733.2912499999999" y="1427.5500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#581c87" dy="4.55">scripts/shaders/grid.gdshader</text>
+</g>
+<g class="node" data-id="MSH" data-label="meshes/plane_100.tres" data-shape="rectangle">
+  <rect x="866.1502499999999" y="1255.9" width="176.07099999999997" height="36.900000000000006" rx="0" ry="0" fill="#fae8ff" stroke="#a21caf" stroke-width="0.75" />
+  <text x="954.1857499999999" y="1274.3500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#581c87" dy="4.55">meshes/plane_100.tres</text>
+</g>
+<g class="node" data-id="GLB" data-label="assets/models/player.glb" data-shape="rectangle">
+  <rect x="1062.2212499999998" y="1255.9" width="190.14999999999998" height="36.900000000000006" rx="0" ry="0" fill="#fae8ff" stroke="#a21caf" stroke-width="0.75" />
+  <text x="1157.2962499999999" y="1274.3500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#581c87" dy="4.55">assets/models/player.glb</text>
+</g>
+<g class="node" data-id="BLENDER" data-label="Blender source
+model · rig · animations" data-shape="cylinder">
+  <rect x="1068.14925" y="1416.1000000000001" width="178.29399999999998" height="53.80000000000001" fill="#f1f5f9" stroke="none" />
+  <line x1="1068.14925" y1="1416.1000000000001" x2="1068.14925" y2="1469.9" stroke="#475569" stroke-width="0.75" />
+  <line x1="1246.4432499999998" y1="1416.1000000000001" x2="1246.4432499999998" y2="1469.9" stroke="#475569" stroke-width="0.75" />
+  <ellipse cx="1157.2962499999999" cy="1469.9" rx="89.14699999999999" ry="7" fill="#f1f5f9" stroke="#475569" stroke-width="0.75" />
+  <ellipse cx="1157.2962499999999" cy="1416.1000000000001" rx="89.14699999999999" ry="7" fill="#f1f5f9" stroke="#475569" stroke-width="0.75" />
+  <text x="1157.2962499999999" y="1443.0000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#0f172a"><tspan x="1157.2962499999999" dy="-3.9000000000000012">Blender source</tspan><tspan x="1157.2962499999999" dy="16.900000000000002">model · rig · animations</tspan></text>
+</g>
+</svg>
