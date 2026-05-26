@@ -15,3 +15,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_collision")
 
 [node name="Model" parent="." unique_id=974083480 instance=ExtResource("2_g2els")]
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=1031525747]
+root_node = NodePath("../Model")
+anim_player = NodePath("../Model/AnimationPlayer")
