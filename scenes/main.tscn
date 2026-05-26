@@ -4,6 +4,7 @@
 [ext_resource type="Material" path="res://materials/grid_material.tres" id="2"]
 [ext_resource type="PlaneMesh" path="res://meshes/plane_100.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://dl60m34nupv84" path="res://scenes/player.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" path="res://scenes/controls_overlay.tscn" id="5_overlay"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_jyhfs"]
 vertices = PackedVector3Array(-49.5, 0.5, -49.5, -49.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, -49.5)
@@ -32,3 +33,5 @@ material_override = ExtResource("2")
 mesh = ExtResource("3")
 
 [node name="Player" parent="." unique_id=2039112720 instance=ExtResource("4_jyhfs")]
+
+[node name="ControlsOverlay" parent="." instance=ExtResource("5_overlay")]
