@@ -154,6 +154,26 @@ The errors fire even when `AnimationTree.active = false`. They fire even when th
 
 ---
 
+## Docs/assets folders get auto-imported as game resources unless `.gdignore`'d
+
+**Symptom:** Putting an `.svg` (or `.png`, `.glb`, etc.) inside `docs/` for documentation purposes makes Godot generate a sibling `.import` file (e.g., `architecture.svg.import`) and treat the file as a project resource. It shows up in the FileSystem dock and would be packaged into game exports.
+
+**Cause:** Godot scans the entire project root for importable files. There's no special-casing for `docs/`, `README/`, etc. — any folder under `res://` is fair game.
+
+**Fix:** Drop an empty file named **`.gdignore`** (note: **not** `.godotignore` — that's a common wrong guess) into the folder. Godot will then:
+- Skip imports for that folder entirely
+- Hide the folder from the FileSystem dock
+- Refuse `load()`/`preload()` of paths under it
+- Speed up initial project scanning
+
+The file must be empty — `.gdignore` does **not** support `.gitignore`-style patterns. To ignore selectively, organize so the ignored content lives under its own subfolder.
+
+After adding `.gdignore`, delete any already-generated `.import` siblings to keep the tree clean; they won't be regenerated.
+
+**Detect proactively:** Any time you add non-code files (images, PDFs, mermaid renders, design notes with embedded media) under a docs/notes folder, drop `.gdignore` in that folder up front. Reference: https://docs.godotengine.org/en/stable/tutorials/best_practices/project_organization.html
+
+---
+
 ## (Existing project-level gotchas)
 
 These also exist but live in their own dedicated docs — listed here for discoverability:
