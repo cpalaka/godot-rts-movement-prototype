@@ -7,13 +7,13 @@ signal pivot_started
 
 
 # Tunable exports — see spec for rationale
-@export var max_speed: float = 7.0
-@export var accel: float = 24.0
-@export var friction: float = 14.0
+@export var max_speed: float = 10.0
+@export var accel: float = 26.0
+@export var friction: float = 12.0
 @export var turn_rate_deg: float = 540.0
 @export var walk_threshold: float = 2.0
-@export var dash_strength: float = 16.0
-@export var dash_cooldown: float = 1.0
+@export var dash_strength: float = 22.0
+@export var dash_cooldown: float = 0.5
 @export var impulse_decay: float = 50.0
 # Tuning exports for the animation interface (see animation state machine spec)
 @export var pivot_reversal_threshold: float = -0.5  # dot product cutoff (~120° reversal)
