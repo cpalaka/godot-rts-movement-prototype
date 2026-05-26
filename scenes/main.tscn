@@ -20,7 +20,7 @@ shadow_enabled = true
 environment = ExtResource("1")
 
 [node name="Camera_Dota" type="Camera3D" parent="." unique_id=1771142523]
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 18, 18)
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 12, 12)
 current = true
 fov = 50.0
 
