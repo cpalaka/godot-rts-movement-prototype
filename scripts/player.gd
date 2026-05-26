@@ -76,7 +76,7 @@ func _physics_process(delta: float) -> void:
 	# 5. Facing follows velocity heading (smoothed)
 	var horizontal := Vector3(velocity.x, 0.0, velocity.z)
 	if horizontal.length_squared() > 0.01:
-		var target_yaw := atan2(horizontal.x, horizontal.z)
+		var target_yaw := atan2(-horizontal.x, -horizontal.z)
 		var max_step := deg_to_rad(turn_rate_deg) * delta
 		rotation.y = _step_angle(rotation.y, target_yaw, max_step)
 
@@ -124,10 +124,8 @@ func _resolve_dash_dir() -> Vector3:
 	var v := Vector3(velocity.x, 0.0, velocity.z)
 	if v.length_squared() > 0.01:
 		return v.normalized()
-	# Fall back to facing. The Facing cone in player.tscn is oriented along
-	# local +Z, so transform.basis.z is where the player visually points.
-	# (Godot's canonical forward is -basis.z; we override for visual consistency.)
-	return transform.basis.z
+	# Fall back to current facing. Godot's canonical forward is -basis.z.
+	return -transform.basis.z
 
 
 # Public API for external systems to push the player.
