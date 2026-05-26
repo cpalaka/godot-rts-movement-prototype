@@ -92,6 +92,28 @@ If you find a `_resolve_dash_dir` snippet or commentary mentioning "+Z forward" 
 
 ---
 
+## AnimationTree dock UI shifted in Godot 4.6.2
+
+**Symptom:** Old AnimationTree dock walkthroughs (training data, tutorials, older docs) reference UI affordances that no longer exist in Godot 4.6.2:
+- "Double-click a `StateMachine` / `BlendTree` / `BlendSpace2D` node to enter its sub-editor" — double-click no longer does anything.
+- "Right-click a state → Set as Start / Set Start Node" — that menu entry is gone.
+- "Right-click a node → Rename" — that menu entry is gone too.
+
+Following stale instructions produces no error — the user just can't find the control, then improvises (or gets stuck).
+
+**Cause:** The AnimationTree dock UI was reworked in Godot 4.6.x. Specific 4.6.2 affordances:
+- **Enter a sub-editor**: each container node (`StateMachine`, `SubStateMachine`, `BlendTree`, `BlendSpace2D`, `BlendSpace1D`) has an **Open Editor** button inside its node header. Click that.
+- **Rename a node**: the node's name is an editable inline field — click into the field and type. No right-click menu, no F2.
+- **Set Start state of a StateMachine**: there is no "Set as Start" affordance. Instead, use the **Connect Nodes** tool (default cursor) and drag from the green `Start` node to the desired state. Godot serializes this as a transition `["Start", "<TargetState>", SubResource(...)]` with default `advance_mode = 2` (Enabled) and no condition — fires unconditionally on entry, functionally equivalent to "this is the Start state."
+
+**Fix:** When writing or following AnimationTree dock walkthroughs, use the 4.6.2 idioms above.
+
+**Detect proactively:** If a walkthrough says "double-click X to enter" or "right-click to rename/Set Start," and you're on Godot 4.6.x, translate to the new affordances before clicking.
+
+**Confirmed by:** Step 5 of the animation roadmap (2026-05-26), Task 4 — agent's walkthrough referenced the old UI; user flagged and resolved by editing the inline name field and connecting Start→Locomotion manually. Serialization verified equivalent: `transitions = ["Start", "Locomotion", SubResource(...)]` with `advance_mode = 2`.
+
+---
+
 ## (Existing project-level gotchas)
 
 These also exist but live in their own dedicated docs — listed here for discoverability:
