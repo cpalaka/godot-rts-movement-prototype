@@ -34,4 +34,4 @@ mesh = ExtResource("3")
 
 [node name="Player" parent="." unique_id=2039112720 instance=ExtResource("4_jyhfs")]
 
-[node name="ControlsOverlay" parent="." instance=ExtResource("5_overlay")]
+[node name="ControlsOverlay" parent="." unique_id=346719876 instance=ExtResource("5_overlay")]

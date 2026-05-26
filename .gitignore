@@ -2,6 +2,11 @@
 .godot/
 /android/
 
+# Exported builds (regenerable via Project → Export)
+# Ignore artifacts but keep the .gdignore so Godot doesn't auto-import build outputs.
+/builds/*
+!/builds/.gdignore
+
 # macOS
 .DS_Store
 
