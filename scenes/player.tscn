@@ -86,25 +86,30 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dqkch"]
 xfade_time = 0.1
+advance_mode = 2
 advance_condition = &"is_steering"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qlg0r"]
 xfade_time = 0.15
 priority = 0
+advance_mode = 2
 advance_expression = "not is_steering"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_smehm"]
 xfade_time = 0.1
+advance_mode = 2
 advance_condition = &"is_steering"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ur7pv"]
 xfade_time = 0.2
+advance_mode = 2
 advance_condition = &"is_slow"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y4r1p"]
 xfade_time = 0.05
 priority = 2
 switch_mode = 1
+advance_mode = 2
 advance_condition = &"is_pivoting"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d2wvv"]
@@ -131,6 +136,7 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g2els"]
 xfade_time = 0.05
 priority = 2
+advance_mode = 2
 advance_condition = &"is_hit"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qhqgy"]
@@ -148,7 +154,6 @@ transitions = ["Start", "Locomotion", SubResource("AnimationNodeStateMachineTran
 graph_offset = Vector2(-216.96027, -342.03003)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_qlg0r"]
-graph_offset = Vector2(-2.8813033, -79.679855)
 nodes/output/position = Vector2(1140, 190)
 nodes/Top/node = SubResource("AnimationNodeStateMachine_dqkch")
 nodes/Top/position = Vector2(550, 190)
@@ -171,7 +176,6 @@ shape = SubResource("CapsuleShape3D_collision")
 root_node = NodePath("../Model")
 tree_root = SubResource("AnimationNodeBlendTree_qlg0r")
 anim_player = NodePath("../Model/AnimationPlayer")
-script = ExtResource("3_panim")
 parameters/Top/conditions/is_hit = false
 parameters/Top/Locomotion/conditions/is_pivoting = false
 parameters/Top/Locomotion/conditions/is_slow = false
@@ -181,3 +185,4 @@ parameters/Top/Locomotion/Move/blend_position = Vector2(0, 0)
 parameters/DashShot/active = false
 parameters/DashShot/internal_active = false
 parameters/DashShot/request = 0
+script = ExtResource("3_panim")

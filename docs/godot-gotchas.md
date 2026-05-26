@@ -174,6 +174,39 @@ After adding `.gdignore`, delete any already-generated `.import` siblings to kee
 
 ---
 
+## `AnimationNodeStateMachineTransition` conditions never fire unless `advance_mode = 2` (Godot 4.6)
+
+**Symptom:** A StateMachine transition with `advance_condition = &"my_flag"` (or `advance_expression = "..."`) is wired correctly in the AnimationTree dock and the underlying boolean parameter genuinely flips to `true` at runtime — but the transition never fires and the state machine stays stuck on the source node.
+
+The check that nails it: `print($AnimationTree.get("parameters/<sm_path>/conditions/<flag>"))` from inside `_physics_process` returns `true`, yet `playback.get_current_node()` doesn't advance.
+
+**Cause:** `AnimationNodeStateMachineTransition.advance_mode` defaults to `ADVANCE_MODE_ENABLED = 1`. The name is misleading — per the Godot docs:
+
+- `ADVANCE_MODE_DISABLED = 0` — Don't use this transition.
+- `ADVANCE_MODE_ENABLED = 1` — **Only use during `AnimationNodeStateMachinePlayback.travel()`.**
+- `ADVANCE_MODE_AUTO = 2` — Automatically use this transition if the `advance_condition` / `advance_expression` checks are `true`.
+
+ENABLED only allows `travel()`-based requests; it does NOT auto-fire on condition. AUTO is what you want for condition-driven flow. The AnimationTree dock's default when authoring a transition is Enabled, which silently breaks the common "set advance_condition and let it fire" pattern.
+
+**Fix:** In the AnimationTree dock, click the transition, set **Advance Mode** to **Auto**. In `.tscn` hand-edit, add `advance_mode = 2` to the transition subresource:
+
+```
+[sub_resource type="AnimationNodeStateMachineTransition" id="..."]
+xfade_time = 0.1
+advance_mode = 2          # ← required for advance_condition to auto-fire
+advance_condition = &"is_steering"
+```
+
+**Detect proactively:** Whenever you set `advance_condition` or `advance_expression`, set `advance_mode = 2` in the same edit. After saving any StateMachine, audit the `.tscn`:
+
+```
+grep -B1 -A4 'AnimationNodeStateMachineTransition' YourScene.tscn
+```
+
+Every transition that has an `advance_condition` or `advance_expression` line should also have `advance_mode = 2` nearby — otherwise it's dead.
+
+---
+
 ## (Existing project-level gotchas)
 
 These also exist but live in their own dedicated docs — listed here for discoverability:
