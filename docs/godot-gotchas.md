@@ -156,7 +156,7 @@ The errors fire even when `AnimationTree.active = false`. They fire even when th
 
 ## Docs/assets folders get auto-imported as game resources unless `.gdignore`'d
 
-**Symptom:** Putting an `.svg` (or `.png`, `.glb`, etc.) inside `docs/` for documentation purposes makes Godot generate a sibling `.import` file (e.g., `architecture.svg.import`) and treat the file as a project resource. It shows up in the FileSystem dock and would be packaged into game exports.
+**Symptom:** Putting an `.svg` (or `.png`, `.glb`, etc.) inside `docs/` for documentation purposes makes Godot generate a sibling `.import` file (e.g., `mydoc.svg.import`) and treat the file as a project resource. It shows up in the FileSystem dock and would be packaged into game exports.
 
 **Cause:** Godot scans the entire project root for importable files. There's no special-casing for `docs/`, `README/`, etc. — any folder under `res://` is fair game.
 
