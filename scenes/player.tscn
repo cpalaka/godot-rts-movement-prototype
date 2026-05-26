@@ -83,17 +83,45 @@ animation = &"pivot_skid"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fjrip"]
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dqkch"]
+xfade_time = 0.1
+advance_condition = &"is_steering"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qlg0r"]
+xfade_time = 0.15
+priority = 0
+advance_expression = "not is_steering"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_smehm"]
+xfade_time = 0.1
+advance_condition = &"is_steering"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ur7pv"]
+xfade_time = 0.2
+advance_condition = &"is_slow"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y4r1p"]
+xfade_time = 0.05
+priority = 2
+switch_mode = 1
+advance_condition = &"is_pivoting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d2wvv"]
+xfade_time = 0.1
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qlg0r"]
 states/Drift/node = SubResource("AnimationNodeBlendSpace1D_g2els")
-states/Drift/position = Vector2(697.87366, 24.35434)
+states/Drift/position = Vector2(647.37366, 24.47934)
 states/Idle/node = SubResource("AnimationNodeAnimation_dqkch")
-states/Idle/position = Vector2(313.87366, 29.85434)
+states/Idle/position = Vector2(279.87366, 30.265755)
 states/Move/node = SubResource("AnimationNodeBlendSpace2D_qlg0r")
-states/Move/position = Vector2(527.37366, -9.64566)
+states/Move/position = Vector2(446.37366, -71.89566)
 states/Pivot/node = SubResource("AnimationNodeAnimation_tuyoq")
-states/Pivot/position = Vector2(663.37366, 169.85434)
-states/Start/position = Vector2(150.5, 37)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_fjrip")]
+states/Pivot/position = Vector2(780.87366, -77.14566)
+states/Start/position = Vector2(118, 30.67717)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_fjrip"), "Idle", "Move", SubResource("AnimationNodeStateMachineTransition_dqkch"), "Move", "Drift", SubResource("AnimationNodeStateMachineTransition_qlg0r"), "Drift", "Move", SubResource("AnimationNodeStateMachineTransition_smehm"), "Drift", "Idle", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "Move", "Pivot", SubResource("AnimationNodeStateMachineTransition_y4r1p"), "Pivot", "Move", SubResource("AnimationNodeStateMachineTransition_d2wvv")]
 graph_offset = Vector2(-354.12634, -398.14566)
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tuyoq"]
@@ -143,6 +171,9 @@ root_node = NodePath("../Model")
 tree_root = SubResource("AnimationNodeBlendTree_qlg0r")
 anim_player = NodePath("../Model/AnimationPlayer")
 parameters/Top/conditions/is_hit = false
+parameters/Top/Locomotion/conditions/is_pivoting = false
+parameters/Top/Locomotion/conditions/is_slow = false
+parameters/Top/Locomotion/conditions/is_steering = false
 parameters/Top/Locomotion/Drift/blend_position = 0.0
 parameters/Top/Locomotion/Move/blend_position = Vector2(0, 0)
 parameters/DashShot/active = false
