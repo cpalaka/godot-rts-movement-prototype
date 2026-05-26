@@ -19,6 +19,20 @@ For agents working in Godot projects with `@satelliteoflove/godot-mcp` + `@ryanm
 - **Editor must be running** for any `godot-mcp__*` tool to work. `godot__*` tools are filesystem-only and don't need it.
 - **Triggering Godot's FS scan after dropping a new asset.** A fresh `.glb` in `models/` is not picked up by the MCP-connected editor automatically — referencing it via `node.create scene_path=...` fails with `SCENE_NOT_FOUND` until the editor's FS watcher fires. On macOS: `osascript -e 'tell application "Godot" to activate'` from `Bash` wakes the watcher and triggers import in ~1s. Alternatives: reopen the project, or run `EditorInterface.get_resource_filesystem().scan()` from the Script editor (no direct MCP affordance).
 
+## Reading errors when the scene fails to load
+
+`mcp__godot__get_console_output` only sees stdout from a *running* game. If F5 fails or the user reports a parse error / "scene doesn't load", the buffer is just the engine boot banner — the actual cause is in the editor-side error log. Reach for these instead:
+
+- `mcp__godot-mcp__editor get_errors` — full error log with `file` + `line` for parser errors, plus engine cpp errors. **Primary tool when scene won't start.**
+- `mcp__godot-mcp__editor get_stack_trace` — most recent debugger crash with frames.
+- `mcp__godot-mcp__editor get_log_messages source="editor"` — editor-side log: script load failures, library conflicts, etc.
+
+These work whether or not anything is running.
+
+**`mcp__godot__get_diagnostics` is not authoritative.** It catches LSP-visible errors in a single file but misses engine-side parse failures that involve cross-script symbol resolution. Example: `_player.is_steering()` where `_player` is typed `CharacterBody3D` and `player.gd` has no `class_name` — `is_steering()` resolves to Variant at engine parse time, breaks `:=` inference, fails to load the script. `get_diagnostics` reports the file clean. **After writing GDScript that touches another script's exports / methods / signals, cross-check `get_errors` before declaring success.**
+
+Proactively reach for `get_errors` when the user reports failure — don't wait to be asked.
+
 ## Property formats (`node.update properties={...}`)
 
 - Vector3/Vector2: dict `{"x":,"y":,"z":}` / `{"x":,"y":}`

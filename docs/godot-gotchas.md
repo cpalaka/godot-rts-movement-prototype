@@ -45,6 +45,27 @@ Each entry: **symptom → cause → fix**. Optional: how to detect proactively.
 
 ---
 
+## GDScript `:=` inference fails on cross-script member access without `class_name`
+
+**Symptom:** GDScript parse error on lines accessing another node's script-defined symbol:
+
+> Parse Error: Cannot infer the type of "x" variable because the value doesn't have a set type.
+
+Typically on lines like `var steering := _player.is_steering()` or `var slow := speed < _player.idle_threshold`, where `_player` is typed (e.g. `CharacterBody3D`) but the accessed symbol is defined on its attached script (not the base class).
+
+**Cause:** With `_player: CharacterBody3D`, the static parser only knows about `CharacterBody3D`'s built-in members. Script-defined symbols (custom exports, methods, signals) aren't visible to the parser unless the source script declares `class_name Foo` — making `Foo` a globally-known type. Without `class_name`, `_player.script_member` resolves to Variant; `:=` inference fails the same warnings-as-errors gate as the `clamp` family above.
+
+**Fix:** Two options, in order of preference:
+
+1. **Add `class_name` to the source script** — e.g. `class_name Player extends CharacterBody3D` at the top of `player.gd`. Makes its members statically visible everywhere. Side effect: `Player` becomes a global identifier.
+2. **Annotate the consumer explicitly** — `var steering: bool = _player.is_steering()`. Minimal surgical fix; doesn't touch the source script. Use when adding `class_name` would cause naming friction.
+
+**`mcp__godot__get_diagnostics` does NOT catch this** — the per-file LSP has no cross-script context and reports the file clean. The engine parser at script-load time is what fails. Always cross-check `mcp__godot-mcp__editor get_errors` after writing cross-script access. (See `docs/godot-mcp-guide.md` → "Reading errors when the scene fails to load".)
+
+**Detect proactively:** When writing GDScript that touches `other_node.some_member` where `some_member` is declared on `other_node`'s attached script, prefer typed annotations on the consumer side or add `class_name` to the source.
+
+---
+
 ## `.tscn` null overrides silently zero typed exports
 
 **Symptom:** After a play session involving live Inspector tuning, the affected `.tscn` file contains lines like:
