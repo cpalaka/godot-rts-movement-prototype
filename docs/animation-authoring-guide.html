@@ -270,7 +270,7 @@
 <ul>
   <li><strong>Standard bone hierarchy:</strong> root → hips → spine → chest → neck → head, plus arms (shoulder/upper-arm/forearm/hand) and legs (thigh/shin/foot/toe). Rigify or hand-built; either works.</li>
   <li><strong>Bone naming:</strong> glTF-compatible. Avoid Blender's <code>.L</code>/<code>.R</code> if it causes issues downstream; <code>_l</code>/<code>_r</code> suffixes are safer cross-tool.</li>
-  <li><strong>Bind pose:</strong> T-pose or A-pose, facing <strong>+Y in Blender</strong> (which becomes <strong>+Z in Godot</strong> after the glTF axis swap). This matches the project's +Z-forward convention; see <code>scripts/player.gd</code>'s <code>_resolve_dash_dir</code> comment for why.</li>
+  <li><strong>Bind pose:</strong> T-pose or A-pose, facing <strong>+Y in Blender</strong> (which becomes <strong>-Z in Godot</strong> after the glTF Y-up axis swap). This matches Godot's canonical -Z forward convention. (Earlier versions of this guide said +Z forward — the project flipped to canonical -Z on 2026-05-25; see <code>docs/godot-gotchas.md</code>.)</li>
   <li><strong>Root bone at origin</strong> in bind pose. Hips above root, never below it.</li>
   <li><strong>Scale:</strong> apply all scale transforms before rigging (Object → Apply → All Transforms). Character height ≈ 1.7m in Blender units = 1.7m in Godot.</li>
 </ul>

@@ -72,6 +72,26 @@ Hits are suspicious — investigate whether they're stale clear-overrides.
 
 ---
 
+## Forward axis is canonical -Z (flipped from +Z on 2026-05-25)
+
+**Convention:** The player character's forward direction is **local -Z** — Godot's canonical convention. `_resolve_dash_dir` falls back to `-transform.basis.z`, and `_physics_process` step 5 computes `target_yaw = atan2(-horizontal.x, -horizontal.z)` so that `rotation.y` aligns the player's local -Z with the velocity vector.
+
+**Historical note:** Before commit `41939bd` (2026-05-25), the controller used **local +Z** as forward. This was a coincidence of how the placeholder gray cone in `player.tscn` was originally oriented (the cone's tip pointed along +Z in `2026-05-23-player-controller-design.md`). The first real character rigged in Blender (authored facing +Y, exported via glTF Y-up → faces -Z in Godot, glTF's "front") would have appeared to run butt-first under the old convention. The flip aligns the project with Godot/glTF idiom so imported assets work without per-asset rotation.
+
+**What references the new convention:**
+- `scripts/player.gd` — `target_yaw` formula, `_resolve_dash_dir` fallback
+- `scenes/player.tscn` — Facing cone is now positioned at `(0, 1.5, -0.35)` with basis rotated 180° around Y so the tip points along local -Z
+- All Blender-authored characters: author facing **+Y in Blender**; glTF Y-up conversion makes this face **-Z in Godot** = the canonical and now-project-correct forward.
+
+**Stale references in historical docs** (kept for time-stamp fidelity; do not act on them):
+- `docs/superpowers/specs/2026-05-23-player-controller-design.md` — describes cone pointing +Z (original design)
+- `docs/superpowers/specs/2026-05-24-rts-movement-depth-design.md` — quotes the old `_resolve_dash_dir` comment
+- `docs/superpowers/plans/2026-05-23-player-controller.md`, `docs/superpowers/plans/2026-05-24-movement-depth.md` — reference the +Z fallback
+
+If you find a `_resolve_dash_dir` snippet or commentary mentioning "+Z forward" or "override for visual consistency" in any doc, treat it as historical unless the doc was written on or after 2026-05-25.
+
+---
+
 ## (Existing project-level gotchas)
 
 These also exist but live in their own dedicated docs — listed here for discoverability:

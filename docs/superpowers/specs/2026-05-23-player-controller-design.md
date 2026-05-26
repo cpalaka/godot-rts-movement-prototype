@@ -2,6 +2,7 @@
 
 **Date:** 2026-05-23
 **Status:** Approved design, pre-implementation
+**Convention update (2026-05-25):** This spec describes the placeholder Facing cone as pointing along local **+Z**, and the controller followed that convention. On 2026-05-25 the project flipped to Godot's canonical **-Z forward** (see `docs/godot-gotchas.md`). References to "+Z" below are historical; the current code in `scripts/player.gd` uses -Z forward.
 
 ## Purpose
 

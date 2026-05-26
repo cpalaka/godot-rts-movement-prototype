@@ -169,7 +169,7 @@ Derivation:
 - `normalized_speed = clampf(velocity.length() / max_speed, 0.0, 1.0)`
 - `turn_rate = clampf((rotation.y - prev_rotation_y) / delta / deg_to_rad(turn_rate_deg), -1.0, 1.0)`
 
-`turn_rate` sign: positive = turning right (clockwise from above), consistent with this project's +Z-forward convention. See the existing comment in `_resolve_dash_dir` (`scripts/player.gd`) for why +Z is forward here.
+`turn_rate` sign: positive = turning right (clockwise from above), consistent with Godot's canonical -Z-forward convention. (This spec was originally drafted assuming +Z forward; the project flipped to canonical -Z on 2026-05-25 — see `docs/godot-gotchas.md`. The `turn_rate` sign convention is unchanged by the flip; the rotation direction interpretation stays the same.)
 
 `prev_rotation_y` is tracked inside `player_anim.gd` — the consumer's concern, not exposed by `player.gd`.
 

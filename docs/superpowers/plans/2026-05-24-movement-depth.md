@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Convention update (2026-05-25):** The `_resolve_dash_dir` snippet below returns `transform.basis.z` (local +Z) with a "if dash goes wrong direction, flip to -basis.z" hedge in the prose. On 2026-05-25 the project flipped to canonical -Z forward — the current code returns `-transform.basis.z`. See `docs/godot-gotchas.md`.
+
 **Goal:** Replace the placeholder click-to-move controller with a momentum-driven hold-to-direct system that has Smash-Bros-level depth — heavy drift, cursor-as-stick steering, dash with impulse channel, and emergent skill expression.
 
 **Architecture:** Single `CharacterBody3D` with two velocity channels: `input_velocity` (from cursor steering, integrated via `move_toward` toward a target derived from cursor offset) and `impulse_velocity` (from dash and future knockback, decays via `move_toward` toward zero). Channels sum, `move_and_slide()` applies the result.

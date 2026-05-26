@@ -3,6 +3,7 @@
 **Date:** 2026-05-24
 **Status:** Approved design, pre-implementation
 **Supersedes:** `2026-05-23-player-controller-design.md` (placeholder click-to-move). The placeholder controller is in the repo and verified working; this redesign replaces its core mechanics with a momentum-driven hold-to-direct system.
+**Convention update (2026-05-25):** The `_resolve_dash_dir` snippet below shows the fallback returning `transform.basis.z` (local +Z) with a comment explaining the override of Godot's canonical -Z. On 2026-05-25 the project flipped to canonical -Z forward; the current code returns `-transform.basis.z`. See `docs/godot-gotchas.md` for details.
 
 ## Purpose
 

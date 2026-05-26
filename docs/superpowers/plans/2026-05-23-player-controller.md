@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Convention update (2026-05-25):** The plan describes the Facing cone as pointing along local +Z. On 2026-05-25 the project flipped to Godot's canonical -Z forward; the cone has been rotated 180° in `player.tscn`. References to "+Z" in screenshots and verification steps below are historical. See `docs/godot-gotchas.md`.
+
 **Goal:** Build a click-to-move placeholder player avatar per the [2026-05-23 spec](../specs/2026-05-23-player-controller-design.md) — capsule + cone facing indicator + NavigationAgent3D + right-click destination.
 
 **Architecture:** New `scenes/player.tscn` is a CharacterBody3D root containing a body capsule (placeholder), a cone facing indicator (placeholder), a matching capsule collision shape, and a NavigationAgent3D. New `scripts/player.gd` handles right-click → ground-plane raycast → set nav target, then per-physics-frame reads the agent's next path position, smoothly turns toward it, and calls `move_and_slide`. `scenes/main.tscn` wraps the existing `Ground` in a `NavigationRegion3D` (so the nav mesh bakes from the plane) and instances `Player.tscn` at the origin.

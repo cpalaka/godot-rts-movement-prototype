@@ -93,20 +93,26 @@ Use **exactly**: `idle`, `walk_fwd`, `walk_lean_L`, `walk_lean_R`, `run_fwd`, `r
 
 Note casing: lowercase with underscores, `_L` and `_R` for left/right variants (uppercase L/R).
 
-### 4. Forward axis — local +Z forward, not -Z
+### 4. Forward axis — canonical -Z forward (Godot/glTF default)
 
-**Critical and easy to miss.** This project's player controller treats the character's **local +Z** as the forward direction, not Godot's canonical -Z. This is a deliberate override for visual consistency with how the existing placeholder cone is oriented.
+**Good news: this is the standard.** The project's player controller treats the character's **local -Z** as the forward direction — Godot's canonical convention, matching glTF's "front along +Z in author space → -Z in Godot after Y-up conversion."
 
-Comment from the project's `scripts/player.gd`:
+**Earlier version of this document had the wrong guidance** (it said +Z forward, an override that existed in the codebase until 2026-05-25). The override was removed; the project now uses canonical -Z forward. See `docs/godot-gotchas.md` for the convention-flip details.
 
-> "The Facing cone in player.tscn is oriented along local +Z, so transform.basis.z is where the player visually points. (Godot's canonical forward is -basis.z; we override for visual consistency.)"
+**Practical implication for Blender:** Author the character facing **+Y in Blender** in the standard front-view orientation (face toward the +Y direction, which is "into the screen" in Blender's default front view, numpad-1). On glTF export with `export_yup=True` (default), Blender's +Y maps to Godot's -Z — which is what the controller treats as forward. No extra rotation needed.
 
-**Practical implication for Blender:** Author the character such that, when the glTF reaches Godot with the standard Y-up convention, the character's face/chest points along **local +Z**. The standard Blender export pipeline is `+Y up` in glTF (Blender's +Z up rotates to glTF's +Y up), with `-Z forward` as the default. The user will need to either:
+If the character ends up facing the wrong way in Godot after import (e.g., the developer authored it facing -Y), the cleanest fix is to **re-orient the rig in Blender**:
 
-- Rotate the character 180° before export so its face points along glTF +Z, OR
-- Author the character facing +Y in Blender (which becomes +Z in Godot after the Y-up conversion).
+1. Select the armature in object mode.
+2. Rotate 180° around the Z axis (Blender's up).
+3. `Object → Apply → Rotation` — bakes the rotation into the rest pose and every animation curve. (Applying transforms on a rigged armature is safe because both the rest pose and the keyframes are stored relative to the same armature transform.)
+4. Re-export the glTF.
 
-This is fiddly. Walk through it with the developer carefully, and have them test in Godot with one clip (the `idle` is fine) before authoring all 13.
+**Avoid** rotating only the mesh in object mode without applying — that leaks a non-identity transform into the export and produces weird results in Godot.
+
+**Avoid** compensating with a 180° rotation on the Godot side (e.g., setting the imported scene instance's `rotation.y = PI` in `player.tscn`) — that hides the convention mismatch instead of resolving it, and trips up future imports.
+
+Test the orientation with **one clip first** (the `idle` is fine) before authoring all 13. Import the `.glb`, drop the imported scene into `player.tscn`, F5, and confirm the character faces the direction of motion when running.
 
 ### 5. Multi-material slot ordering
 
@@ -175,7 +181,7 @@ Each tree is its own git repo (or just one — solo project). Export script live
 | Single mesh vs modular | Affects material slot organization and future swap-ability | Single mesh for prototype |
 | Texture pipeline: unlit, simple PBR, or full PBR | Affects material setup and lighting needs | Unlit or simple PBR for prototype |
 | Skeleton: full humanoid with IK rig, or simplified FK | Affects rigging complexity | Rigify provides IK rig controls for authoring; for a prototype this is fine and worth the setup time |
-| Forward-axis convention in Blender | The +Z-forward override is a project quirk that the rig must accommodate | Author facing local +Y in Blender (becomes +Z in Godot after Y-up conversion) — test with `idle` first |
+| Forward-axis convention in Blender | The project uses Godot's canonical -Z forward; matching it is critical | Author facing +Y in Blender (becomes -Z in Godot after glTF Y-up conversion) — test with `idle` first |
 
 ---
 
@@ -208,7 +214,7 @@ If your walkthrough needs per-clip authoring depth (clip lengths in frames, loop
 
 ## Anti-pitfalls — things to surface to the developer early
 
-1. **Don't author the full 13 clips before testing one in Godot.** Author `idle`, export, import in Godot, confirm it shows up correctly (orientation, materials, scale, bone names) before investing time in the other 12. The forward-axis quirk in particular is easy to miss until import.
+1. **Don't author the full 13 clips before testing one in Godot.** Author `idle`, export, import in Godot, confirm it shows up correctly (orientation, materials, scale, bone names) before investing time in the other 12. Forward-axis errors in particular are easy to miss until import — fix them at the source (Blender armature orientation) rather than papering over them in Godot.
 
 2. **Don't rename bones once clips are authored.** Even one bone rename forces re-authoring every clip's track.
 
@@ -220,10 +226,10 @@ If your walkthrough needs per-clip authoring depth (clip lengths in frames, loop
 
 6. **Don't ship without a placeholder hit_flinch.** Even though the damage system isn't built, the AnimationTree needs the clip to exist so the state machine has a target. A 0.5s recoil is enough.
 
-7. **Don't pre-rotate the character mesh in object mode** to fix the forward-axis quirk. Do it via the export-time rotation or by authoring facing +Y in Blender. Object-mode rotations leak weird transforms into the export.
+7. **If correcting forward-axis orientation, do it on the armature and apply rotation.** Authoring should be done facing +Y in Blender so glTF's Y-up export lands on Godot's canonical -Z forward. If a re-orient is needed: rotate the armature 180° in object mode, then `Object → Apply → Rotation` (bakes the rotation into rest pose and animation curves cleanly). Do NOT leave an un-applied object-mode rotation on the mesh — it leaks weird transforms into the export. Do NOT compensate on the Godot side with a `rotation.y = PI` on the imported scene instance — it hides the mismatch.
 
 ---
 
 ## Summary handoff in one paragraph
 
-> The developer needs a rigged bipedal humanoid character for a top-down ARPG prototype in Godot 4.6, replacing a gray cone placeholder. The animation system requires 13 specifically-named clips (7 locomotion BlendSpace2D anchors, 3 drift BlendSpace1D anchors, 3 one-shots for pivot/dash/hit). The highest-leverage decision is rig flavor (Rigify vs Mixamo vs custom) — settle this with the developer before authoring. The project uses local +Z as forward (overrides Godot's canonical -Z), so the character must face +Z in the final exported orientation. Detailed per-clip authoring guidance lives in `docs/animation-authoring-guide.html` in the Godot project. The Godot side is already prepared with signals and exports for the future AnimationTree binding — that work happens after this Blender pass completes.
+> The developer needs a rigged bipedal humanoid character for a top-down ARPG prototype in Godot 4.6, replacing a gray cone placeholder. The animation system requires 13 specifically-named clips (7 locomotion BlendSpace2D anchors, 3 drift BlendSpace1D anchors, 3 one-shots for pivot/dash/hit). The highest-leverage decision is rig flavor (Rigify vs Mixamo vs custom) — settle this with the developer before authoring. The project uses Godot's canonical -Z forward (matches glTF's default), so author the character facing **+Y in Blender** and the standard `export_yup=True` glTF export lands on the correct orientation. Detailed per-clip authoring guidance lives in `docs/animation-authoring-guide.html` in the Godot project. The Godot side is already prepared with signals and exports for the future AnimationTree binding — that work happens after this Blender pass completes.
