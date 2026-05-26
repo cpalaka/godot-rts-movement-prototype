@@ -32,13 +32,15 @@ func _physics_process(delta: float) -> void:
 	set("parameters/Top/conditions/is_hit", _is_hit_pulse)
 	_is_hit_pulse = false
 
-	var steering := _player.is_steering()
+	# `:=` inference fails here because player.gd has no class_name — cross-script
+	# property/method access on a typed CharacterBody3D resolves to Variant.
+	var steering: bool = _player.is_steering()
 	if steering != _cached_is_steering:
 		set("parameters/Top/Locomotion/conditions/is_steering", steering)
 		_cached_is_steering = steering
 
 	var speed := _player.velocity.length()
-	var slow := speed < _player.idle_threshold
+	var slow: bool = speed < _player.idle_threshold
 	if slow != _cached_is_slow:
 		set("parameters/Top/Locomotion/conditions/is_slow", slow)
 		_cached_is_slow = slow
