@@ -10,6 +10,26 @@
 # macOS
 .DS_Store
 
-# Claude / superpowers ephemeral state
-.claude/settings.local.json
+# Claude / superpowers workspace (local-only; don't publish)
+.claude/
 .superpowers/
+CLAUDE.md
+
+# Local design scratch (specs + plans live outside the public repo)
+docs/superpowers/
+
+# Local-only frozen reference docs
+docs/animation-authoring-guide.html
+docs/blender-character-handoff.md
+
+# Editor / OS scratch
+*.log
+*.tmp
+*.bak
+*.orig
+*~
+.*.swp
+
+# IDE workspace state (machine-specific)
+.idea/
+.vscode/

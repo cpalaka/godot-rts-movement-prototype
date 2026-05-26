@@ -14,15 +14,6 @@ A 3D player movement prototype in Godot 4.6, exploring Smash-Bros-style heavy-mo
 | O | Toggle fullscreen |
 | Esc | Quit |
 
-## Design
-
-Two spec documents capture the rationale:
-
-- [`docs/superpowers/specs/2026-05-24-rts-movement-depth-design.md`](docs/superpowers/specs/2026-05-24-rts-movement-depth-design.md) — momentum + steering + impulse channel architecture, the emergent depth that falls out of it (drift, pivot, foxtrot, DI), and the tuning surface.
-- [`docs/superpowers/specs/2026-05-24-animation-state-machine-design.md`](docs/superpowers/specs/2026-05-24-animation-state-machine-design.md) — the AnimationTree topology (BlendTree → Top → Locomotion sub-SM + OneShot dash + Hit slot), threshold-gated transitions, and parameter wiring.
-
-Both shipped through Step 7 (live-feel tuning) on 2026-05-26.
-
 ## Local development
 
 1. Install [Godot 4.6.2 stable](https://godotengine.org/download/).
