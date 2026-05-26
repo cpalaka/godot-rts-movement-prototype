@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bt8osxdsamtk8" path="res://scripts/player.gd" id="1_tuyoq"]
 [ext_resource type="PackedScene" uid="uid://t3imvd52xpjl" path="res://scenes/player_inherited.tscn" id="2_g2els"]
+[ext_resource type="Script" uid="uid://vhwy681gnjnu" path="res://scripts/player_anim.gd" id="3_panim"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_collision"]
 radius = 0.4
@@ -170,6 +171,7 @@ shape = SubResource("CapsuleShape3D_collision")
 root_node = NodePath("../Model")
 tree_root = SubResource("AnimationNodeBlendTree_qlg0r")
 anim_player = NodePath("../Model/AnimationPlayer")
+script = ExtResource("3_panim")
 parameters/Top/conditions/is_hit = false
 parameters/Top/Locomotion/conditions/is_pivoting = false
 parameters/Top/Locomotion/conditions/is_slow = false
