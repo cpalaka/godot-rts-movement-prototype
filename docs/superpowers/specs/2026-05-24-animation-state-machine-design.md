@@ -50,7 +50,7 @@ Inherits from the movement spec. Same game shape: top-down ARPG, momentum-driven
 
 ## Required clips
 
-Total: **13 clips**, all hand-authored in Blender. This section documents names and roles only. Per-clip authoring expectations — length, loop discipline, pose blocking, sync siblings — live in `docs/animation-authoring-guide.html`.
+Total: **12 unique clips**, all hand-authored in Blender. `idle` is shared across two roles (Move's `(0, 0)` center and Drift's `0` anchor) — single clip, counted once. This section documents names and roles only. Per-clip authoring expectations — length, loop discipline, pose blocking, sync siblings — live in `docs/animation-authoring-guide.html`.
 
 ### Locomotion BlendSpace2D anchors — `Move` state (7 clips)
 
@@ -68,7 +68,7 @@ Axes: X = turn rate `[-1, +1]`, Y = normalized speed `[0, 1]`.
 
 No "idle-turn" clips — the controller never turns in place (rotation always accompanies movement).
 
-### Drift BlendSpace1D anchors — `Drift` state (3 clips)
+### Drift BlendSpace1D anchors — `Drift` state (2 new + 1 shared)
 
 Axis: normalized speed `[0, 1]`.
 
@@ -150,11 +150,13 @@ The boundary between `player.gd` and the AnimationTree, mediated by `player_anim
 
 | Parameter path | Source | Pulse type |
 |---|---|---|
-| `parameters/conditions/is_steering` | `player.is_steering()` | Sustained |
-| `parameters/conditions/is_slow` | `player.velocity.length() < player.idle_threshold` | Sustained |
-| `parameters/conditions/is_pivoting` | Set by `pivot_started` handler, cleared next frame | **One-frame pulse** |
-| `parameters/conditions/is_hit` | Set by `hit_received` handler (FUTURE), cleared next frame | **One-frame pulse** |
-| `parameters/conditions/is_dead` | Set by `died` handler (FUTURE) | Latching, never cleared |
+| `parameters/Top/Locomotion/conditions/is_steering` | `player.is_steering()` | Sustained |
+| `parameters/Top/Locomotion/conditions/is_slow` | `player.velocity.length() < player.idle_threshold` | Sustained |
+| `parameters/Top/Locomotion/conditions/is_pivoting` | Set by `pivot_started` handler, cleared next frame | **One-frame pulse** |
+| `parameters/Top/conditions/is_hit` | Set by `hit_received` handler (FUTURE), cleared next frame | **One-frame pulse** |
+| `parameters/Top/conditions/is_dead` | Set by `died` handler (FUTURE) | Latching, never cleared |
+
+**Path nesting:** Each `StateMachine` in Godot 4 owns its own `conditions` Dictionary, surfaced at the path of that SM. With our `BlendTree → Top → Locomotion` topology, conditions referenced by transitions inside `Locomotion` live at `parameters/Top/Locomotion/conditions/*`, and conditions referenced by transitions inside `Top` (the Locomotion→Hit case and the future `(any) → Death` case) live at `parameters/Top/conditions/*`. Empirically verified at the end of Step 5 (2026-05-26) — prior drafts of this spec used the shorter `parameters/conditions/*` form, which would only be correct if the root were a single StateMachine.
 
 One-frame pulse pattern: signal handler sets a boolean flag in `player_anim.gd`; the next `_physics_process` writes the flag to the condition, then sets the flag to false so the next frame writes false. This produces a single-frame `true` window that the StateMachine's advance condition catches.
 
@@ -247,21 +249,21 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
     # Clear one-frame pulses set last frame (always-write — intentional false transition)
-    set("parameters/conditions/is_pivoting", _is_pivoting_pulse)
+    set("parameters/Top/Locomotion/conditions/is_pivoting", _is_pivoting_pulse)
     _is_pivoting_pulse = false
-    set("parameters/conditions/is_hit", _is_hit_pulse)
+    set("parameters/Top/conditions/is_hit", _is_hit_pulse)
     _is_hit_pulse = false
 
     # Sustained conditions with change-guard
     var steering := _player.is_steering()
     if steering != _cached_is_steering:
-        set("parameters/conditions/is_steering", steering)
+        set("parameters/Top/Locomotion/conditions/is_steering", steering)
         _cached_is_steering = steering
 
     var speed := _player.velocity.length()
     var slow := speed < _player.idle_threshold
     if slow != _cached_is_slow:
-        set("parameters/conditions/is_slow", slow)
+        set("parameters/Top/Locomotion/conditions/is_slow", slow)
         _cached_is_slow = slow
 
     # Blend positions
@@ -290,11 +292,11 @@ func _on_pivot_started() -> void:
 
 ### `scenes/player.tscn` — additions
 
-- Add `AnimationTree` node as a sibling of `Body` / `Facing` / `Collision`.
+- Add `AnimationTree` node as a sibling of `Model` / `Collision`. (The `Body` and `Facing` placeholder meshes were removed when the rigged model was imported as `Model`.)
 - Attach `scripts/player_anim.gd` to it.
 - `tree_root`: BlendTree resource (built in the Godot AnimationTree editor dock per the topology section above).
-- `anim_player`: NodePath to the AnimationPlayer (which will live on the imported rigged model — wired after the model-import session).
-- `parameters/conditions/*` defaults: all `false`.
+- `anim_player`: NodePath to the AnimationPlayer (which lives on the imported rigged model under `Model/AnimationPlayer`).
+- Condition parameter defaults: all `false`. Empirical paths per the table in "Conditions (set per physics frame)" above — `parameters/Top/conditions/*` for top-level SM conditions, `parameters/Top/Locomotion/conditions/*` for sub-SM conditions.
 
 Edits to `player.tscn` for the AnimationTree node and its sub-resources go through the Godot editor (Inspector + AnimationTree dock). Hand-editing `.tscn` for tree structure is fragile per project gotchas (`docs/godot-gotchas.md`).
 
