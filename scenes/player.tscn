@@ -15,7 +15,22 @@ mix_mode = 1
 fadein_time = 0.05
 fadeout_time = 0.2
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qhqgy"]
+animation = &"hit_flinch"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qlg0r"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tuyoq"]
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_dqkch"]
+states/Hit/node = SubResource("AnimationNodeAnimation_qhqgy")
+states/Hit/position = Vector2(427.53973, 167.96997)
+states/Locomotion/node = SubResource("AnimationNodeStateMachine_qlg0r")
+states/Locomotion/position = Vector2(425.85965, -50.55493)
+states/Start/position = Vector2(159, 75.5)
+transitions = ["Start", "Locomotion", SubResource("AnimationNodeStateMachineTransition_tuyoq")]
+graph_offset = Vector2(-216.96027, -342.03003)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_qlg0r"]
 graph_offset = Vector2(-2.8813033, -79.679855)
